@@ -49,5 +49,5 @@ let sumPerson = person.trim();
 let sumPerson1 = sumPerson.replace(/,/g, '+');
 typeof(sumPerson1) == Number;
 let a = sumPerson1;
-console.log(a);
+
 
