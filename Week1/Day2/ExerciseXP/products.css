@@ -1,0 +1,122 @@
+.card{
+    float: left;
+    text-align: center;
+    width: 17%;
+    /* border: 1px solid gray; */
+    margin: 5% 2% 2% 5%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.image{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+    text-align: center;
+    position: relative;
+}
+
+
+.imageOne{
+    background-image: url(images/image1.png);
+    width: 100%;
+    height: 250px;
+}
+
+.imageTwo{
+    background-image: url(images/image2.png);
+    width: 100%;
+    height: 250px;
+}
+
+.imageThree{
+    background-image: url(images/image3.png);  
+    width: 100%;
+    height: 250px;
+}
+
+.imageFour{
+    background-image: url(images/image4.png);
+    width: 100%;
+    height: 250px;
+}
+
+.new{
+    color: white;
+    background-color: green;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin: 16px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.new h3{
+    font-size: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.sale{
+    color: white;
+    background-color: rgb(223, 36, 7);
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin: 16px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.sale h3{
+    font-size: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.info{
+    padding: 10px 10px 10px 10px;
+}
+
+.price{
+    padding: 10px 10px 1px 10px;
+    color: rgb(70, 69, 69);
+    font-weight: 300;
+    font-size: 18px;
+    color: green;
+}
+
+span{
+    font-size: 14px;
+    text-decoration: line-through;
+    color: rgb(84, 82, 82);
+}
+
+button{
+    text-transform: uppercase;
+    padding: 5px;
+    border-radius: 7px;
+    border: 1px solid gray;
+    background-color: white;
+ 
+}
+
+button:hover{
+    background-color: rgb(231, 231, 231);
+    cursor: pointer;
+}
+
+.footer{
+    /* position: relative; */
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 7%;
+    background-color: rgb(32, 33, 34);
+    color: white;
+    float: left;
+    text-align: center;
+    padding: 10px;
+}

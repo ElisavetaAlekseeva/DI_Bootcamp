@@ -1,0 +1,125 @@
+h1{
+    font-family: 'roboto';
+    text-align: center;
+    font-weight: bold;
+}
+
+.robot{
+    flex-wrap: wrap;
+	display: flex;
+	justify-content: center;
+}
+
+.head, 
+.leftArm, 
+.torso, 
+.rightArm, 
+.leftLeg, 
+.rightLeg {
+	 background-color: blue;
+}
+
+.head { 
+	width: 200px; 
+	margin: 0 auto; 
+	height: 150px; 
+	border-radius: 200px 200px 0 0; 
+	margin-bottom: 10px;
+} 
+.eyes {
+	display: flex
+}
+
+.head:hover {
+	width: 300px;
+    transition: 1s ease-in-out;
+}
+
+.upperBody { 
+	width: 300px; 
+	height: 150px;
+	display: flex; 
+} 
+
+.leftArm, .rightArm { 
+	width: 40px; 
+	height: 125px;
+	border-radius: 100px; 
+} 
+
+.leftArm { 
+	margin-right: 10px; 
+} 
+
+.rightArm { 
+	margin-left: 10px; 
+} 
+
+.rightArm:hover{
+    transform: rotate(200deg);
+
+}
+
+.torso { 
+	width: 200px; 
+	height: 200px;
+	border-radius: 0 0 50px 50px; 
+    transform-origin: 70px 5px;
+    animation: 1s torso infinite linear;
+} 
+
+   /* .torso:hover */
+     @keyframes torso{
+        form{
+        transform: rotate(0);
+        }
+        to{
+        transform: rotate(360deg);
+
+        }
+    }
+
+.legs { 
+	width: 200px; 
+	height: 200px;
+	margin: 0 auto;
+	display: flex; 
+} 
+
+.leftLeg, .rightLeg { 
+	width: 40px; 
+	height: 120px;
+	border-radius: 0 0 100px 100px; 
+} 
+
+.leftLeg { 
+	margin-left: 45px; 
+} 
+
+.leftLeg:hover {
+    transform: rotate(20deg);
+}
+
+
+.rightLeg { 
+	margin-left: 30px; 
+}
+
+.leftEye, .rightEye { 
+	width: 20px; 
+	height: 20px; 
+	border-radius: 15px; 
+	background-color: black;
+} 
+
+.leftEye { 
+	position: relative; 
+	top: 100px; 
+	left: 40px; 
+} 
+
+.rightEye { 
+	position: relative; 
+	top: 100px; 
+	left: 120px; 
+}

@@ -1,0 +1,23 @@
+.all{
+    display: grid;
+    height: 100vh;
+    gap: 5px;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+}
+
+.all>div:nth-child(4n+1){
+    background-color: rgb(184, 174, 174);
+}
+
+.all>div:nth-child(4n+2){
+    background-color: rgb(131, 124, 124);
+}
+
+.all>div:nth-child(4n+3){
+    background-color: rgb(112, 108, 108);
+}
+
+.all>div:nth-child(4n+4){
+    background-color: rgb(46, 45, 45);
+}

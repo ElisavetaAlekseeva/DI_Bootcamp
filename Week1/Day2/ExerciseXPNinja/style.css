@@ -1,0 +1,179 @@
+.section{
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    top: 0;
+    /* padding: 20px; */
+}
+a{
+    cursor: pointer;
+}
+.sectionLeft{
+    background-color: rgba(243, 236, 236, 0.891);
+    left: 0;
+}
+
+.sectionRight{
+    right: 0;
+    background-image: linear-gradient(to bottom right, rgb(41, 23, 33), rgb(152, 13, 174));
+}
+
+.info{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+
+h2{
+    font-size: 60px;
+}
+input:not(:last-child){
+    background-color: rgba(209, 209, 206, 0.219);
+    width: 400px;
+    height: 40px;
+    margin: 5px;
+    border: none;
+}
+::placeholder{
+    padding: 20px;
+}
+
+.check_flex{
+    margin: 10px 0px;   
+    display: flex;
+    justify-content: space-between;
+    padding: 14px;
+}
+.check{
+    cursor: pointer;
+}
+
+input[type=checkbox]{
+    box-sizing: border-box;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 11px 23px;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 0;
+    background-color: transparent;
+}
+
+.check_input{
+    position: absolute;
+    opacity: 0;
+}
+
+.check_control{
+    position: relative;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 12px;
+    vertical-align: middle; 
+    background-color: inherit;
+    color:  #8d908fb0;
+    border: solid 2px rgba(150, 149, 149, 0.876);
+}
+
+.check_input:checked+.check_control::after{
+    content: "✓";
+    display: block;
+    position: absolute;
+    left: 2px;
+    top: 0.1px;
+}
+.check_text{
+    font-size: 20px;
+    color: rgb(135, 132, 132);
+}
+
+a{
+    color: rgb(135, 132, 132);
+}
+  
+
+button.login {   
+    background-color: rgb(152, 13, 174);   
+    width: 100%;  
+    padding: 15px;   
+    margin: 15px 0px;   
+    border: none;   
+    cursor: pointer;   
+}  
+button.login:hover {   
+        opacity: 0.7;   
+}   
+
+button.login span{
+    color: rgb(255, 255, 255);   
+    font-weight: 800;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+h5{
+    position: relative;
+    overflow: hidden;
+    font-size: 14px;
+    text-align: center;
+    color: rgb(135, 132, 132);
+    font-weight: 300;
+}
+h5 > span.connect{
+    display: inline-block;
+}
+
+h5 > span.connect::before,
+h5 > span.connect::after{
+    content: " ";
+    position: absolute;
+    width: 100%;
+    border-top: 2px solid rgba(142, 137, 137, 0.223);
+    margin-top: .6em;
+}
+
+h5 > span.connect::before{
+    margin-left: -102%;
+}
+h5 > span.connect::after{
+    margin-left: 2%;
+}
+
+.fa-person-circle-plus{
+  font-size: 170px;
+  margin: 0 auto;
+  color: white;
+}
+
+.hello h2{
+    font-size: 60px;
+    text-align: center;
+    padding: 0;
+    color: white;
+}
+
+.textt{
+    color: white;
+}
+
+.btn{
+    background-color: inherit;
+    border: 1px solid rgb(255, 255, 255);
+    color: white;
+    border-radius: 100px;
+    width: 200px;
+    height: 60px;
+}
+
+.reg{
+    font-size: 25px;
+    text-transform: uppercase;
+}
+
+.fa-circle-arrow-right{
+    font-size: 25px;
+}

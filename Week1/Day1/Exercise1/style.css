@@ -1,0 +1,36 @@
+.highlight {
+    background-color: yellow;
+}
+
+.list{
+    margin-left: 50px;
+}
+
+.family{
+    list-style-type: upper-roman;
+}
+
+.headerMedia{
+    text-align: center;
+}
+
+img{
+    border: 5px solid rgb(242, 95, 27);
+    display: block;
+    margin: 0 auto;
+}
+
+.headerDifference{
+    color: red;
+    border: 2px solid red;
+    text-align: center;
+    margin: 20px 80px;
+}
+
+th, td{
+    border: 2px solid black;
+}
+.table{
+    margin-bottom: 70px;
+    margin: 20px 80px;
+}

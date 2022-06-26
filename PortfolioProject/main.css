@@ -1,0 +1,275 @@
+*{
+    box-sizing: border-box;
+}
+
+nav{
+    overflow: hidden;
+    position: fixed;
+    z-index: 1;
+    top: 0;;
+    width: 100%;
+    background-color: rgba(189, 150, 115, 0.694);
+}
+
+nav a{
+    color: rgb(69, 69, 69) !important;
+}
+.navbar {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    font-weight: bold;
+}
+
+
+header{
+    background-image: url(image/bgimage.webp);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 100%;
+    height: 80vh;
+    top: 0;
+    background-position: 100% 100%;
+    /* position: fixed; */
+    padding: 20vh 30% 30% 10vh;
+    position: absolute;
+}
+
+.p-header{
+    width: 300px;
+    height: 50px;
+    padding-bottom: 100px;
+}
+/* .bg-header{
+    background-color: rgba(245, 240, 220, 0.303);
+    padding: 20px;
+    border-radius: 25px;
+    width: 70%;
+} */
+
+.more {
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 60px 25px;
+    padding: 10px 20px;
+}
+
+.more:hover{
+    cursor: pointer;
+    background-color: rgba(238, 200, 144, 0.219);
+}
+
+section{
+    background-color: rgb(245, 240, 220);
+    height: 450vh;
+    width: 100%;
+    margin-top: 80vh;
+    padding: 10%;
+    text-align: center;
+}
+.col{
+    padding: 0px 70px;
+    flex: 1 0 0%;
+    margin: 70px 0;
+}
+.h-name{
+    text-align: left;
+}
+
+.p-about{
+    padding: 10px;
+    width: 400px;
+    height: 27px;
+    text-align: left;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.img-me{
+    width: 400px;
+    border-radius:20%;
+    padding-left: ;
+}
+
+.h-about{
+    text-transform: uppercase;
+}
+
+.about{
+    border-left: 4px solid black;
+    padding: 10px;
+}
+.h-portfolio{
+    text-align: center;
+    margin: 20px;
+    padding: 10% 10% 7%;
+    text-transform: uppercase;
+}
+
+.grid-container{
+    display: grid;
+    gap: 40px;
+    grid-template-columns: auto auto auto;
+}
+
+.item{
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.portfolio-containe{
+    margin-bottom: 0;
+}
+
+.img-portfolio{
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px rgba(201, 189, 154, 0.628);
+}
+
+.img-portfolio:hover{
+    color: antiquewhite;
+}
+
+.grid-container a{
+    color: rgb(36, 34, 34);
+    text-decoration: none;
+    font-size: 20px;
+    padding: 0;
+    display: block;
+    position: relative;
+}
+
+.span-img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(56, 43, 13, 0.887);
+    opacity: 0;
+    border-radius: 10px;
+    color: rgba(238, 216, 186, 0.909);
+    padding: 30px;
+}
+.span-img:hover{
+    opacity: 1;
+}
+.h-img{
+    text-decoration: overline;
+    color: rgba(240, 248, 255, 0.956);
+}
+
+.p-img{
+    padding: 10px;
+    font-weight: 300;
+}
+.second-container{
+    margin: 10%;
+    justify-content: center;
+}
+.card{
+    padding: 10%;
+    text-align: center;
+    background-color: inherit;
+    box-shadow: 10px 10px 10px rgba(201, 189, 154, 0.628);
+    color: rgb(75, 75, 75);
+}
+
+.btn{
+    border: 1px solid rgba(0, 0, 0, 0.723);
+    font-weight: 300;
+    color: rgba(57, 57, 57, 0.41);
+    width: 100%;
+}
+
+.blog{
+    padding: 10%;
+    text-align: center;
+    margin: 0;
+    padding-bottom: 0;
+}
+
+.h-blog{
+    text-transform: uppercase;
+}
+
+.team{
+    margin: 0;
+    direction: rtl;
+}
+
+.third-container{
+    display: grid;
+    gap: 40px;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: center;
+    align-items: center;
+}
+.card{
+    border: none;
+}
+
+.card-name{
+    background-color: rgb(208, 196, 148);
+    border-radius: 0% 0% 0% 100% ;
+    top: 0;
+    color: whitesmoke;
+}
+.card-body{
+    padding: 0;
+}
+
+.card-pro{
+    float: left;
+}
+
+.h-team{
+    text-transform: uppercase;
+    padding: 10%;
+}
+
+.footer{
+    margin-top: 30%;
+}
+
+.fourth-container{
+    border-top: 1px solid black;
+    padding: 20px;
+}
+
+.h-icons{
+    font-weight: 300;
+    font-size: 50px;
+}
+
+i{
+    font-size: 40px;
+    padding: 10px;
+}
+
+.send{
+    width: 100%;
+    border: 1px solid rgb(210, 208, 208);
+    background-color: rgba(183, 120, 3, 0.668);
+    color: rgb(97, 97, 97);
+}
+
+a {
+    float: left;
+    text-align: center;
+    padding: 10px;
+}
+
+.icons{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+}
+
+.portfolio-container{
+direction: rtl;
+}
