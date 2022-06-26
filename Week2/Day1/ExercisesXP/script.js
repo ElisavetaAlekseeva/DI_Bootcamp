@@ -1,13 +1,27 @@
 // Exercise 1: Your Favorite Food
+// Store your favorite food into a variable.
+// Store your favorite meal of the day into a variable (ie. breakfast, lunch or dinner)
+// Console.log I eat <favorite food> at every <favorite meal>
 let favFood = 'ice cream';
 let favMeal = 'dinner';
 console.log('I eat' + ' ' + favFood + ' ' + 'at every' + ' ' + favMeal);
 
 
 // Exercise 2 : Series
+// Using this array : let myWatchedSeries = ["black mirror", "money heist", "the big bang theory"];
+// Create a variable named myWatchedSeriesLength that is equal to the number of series in the myWatchedSeries array.
+// Create a variable named myWatchedSeriesSentence, that is equal to a sentence describing the series you watched
+// For example : black mirror, money heist, and the big bang theory
+// Console.log a sentence using both of the variables created above
+// For example : I watched 3 series : black mirror, money heist, and the big bang theory
+// Change the series “the big bang theory” to “friends”. Hint : You will need to use the index of “the big bang theory” series.
+// Add, at the end of the array, the name of another series you watched.
+// Add, at the beginning of the array, the name of your favorite series.
+// Delete the series “black mirror”.
+// Console.log the third letter of the series “money heist”.
+// Finally, console.log the myWatchedSeries array, to see all the modifications you’ve made.
 let myWatchedSeries = ["black mirror", "money heist", "the big bang theory"];
 let myWatchedSeriesLength =  myWatchedSeries.length;
-// let myWatchedSeriesSentence = myWatchedSeries.splice(1, 1) + ' and';
 let myWatchedSeriesSentence = myWatchedSeries [0]+ ', ' +myWatchedSeries[1]+ ', and ' +myWatchedSeries[2];
 console.log(myWatchedSeriesSentence);
 console.log('i watched' + ' ' + myWatchedSeriesLength + ' ' + 'series:' + ' ' + myWatchedSeriesSentence);
@@ -21,6 +35,10 @@ console.log(myWatchedSeries);
 
 
 // Exercise 3 : The Temperature Converter
+// Store a celsius temperature into a variable.
+// Convert it to fahrenheit and console.log <temperature>°C is <temperature>°F.
+// Hint : Should you create another variable to hold the temperature in fahrenheit? (ie. point 2)
+// Hint: To convert a temperature from celsius to fahrenheit : Divide it by 5, then multiply it by 9, then add 32
 let celsius = 25;
 let fahrenheit = ( celsius / 5 ) * 9 + 32;
 console.log(fahrenheit);
@@ -29,6 +47,9 @@ console.log(fahrenheit);
 
 
 // Exercise 4 : Guess The Answers #1
+// For each expression, predict what you think the output will be in a comment (//) without first running the command. 
+// Of course, explain each prediction.
+// Then run the expression in the console. Note the actual output in a comment and compare it with your prediction.
 let c;
 let a = 34;
 let b = 21;
@@ -119,62 +140,60 @@ console.log(1 === "1");
 // Prediction: false strictly equal and here compare string and number
 // Actual:false
 
-console.log(6666);
-
 // Exercise 6 : Guess The Answers #3
 console.log(5 + "34");
 // Prediction: 534 not two numbers
-// Actual:
+// Actual:534
 
 console.log(5 - "4");
-// Prediction: 1
-// Actual:
+// Prediction: 1 we use - only for subtractions, so 4 counts as a number
+// Actual:1
 
 console.log(10 % 5);
-// Prediction: 2 ???????
-// Actual:
+// Prediction: 0 because 10/5 = 2 without any residues
+// Actual:0
 
 console.log(5 % 10);
-// Prediction: 0.5 ????????
-// Actual:
+// Prediction: 5 
+// Actual:5
 
 console.log("Java" + "Script");
-// Prediction: JavaScript
-// Actual:
+// Prediction: JavaScript its two strings without space
+// Actual:JavaScript
 
 console.log(" " + " ");
-// Prediction:'  '. 
-// Actual:
+// Prediction:'  '. just space without any variables
+// Actual:'  '
 
 console.log(" " + 0);
-// Prediction:' 0'
-// Actual:
+// Prediction:' 0' - space and the number
+// Actual:' 0'
 
 console.log(true + true);
-// Prediction: 2
-// Actual:
+// Prediction: 2 true = 1 => 1 + 1 =2
+// Actual:2
 
 console.log(true + false);
-// Prediction: 1
-// Actual:
+// Prediction: 1 true=1, false=0
+// Actual:1
 
 console.log(false + true);
-// Prediction: 1
-// Actual:
+// Prediction: 1 true=1, false=0
+// Actual:1
 
 console.log(false - true);
-// Prediction: -1
-// Actual:
+// Prediction: -1 true=1, false=0
+// Actual:-1
 
 console.log(!true);
-// Prediction: false
-// Actual:
+// Prediction: false ! its a logical negation
+// Actual:false 1
 
 console.log(3 - 4);
-// Prediction: -1
-// Actual:
+// Prediction: -1 
+// Actual:-1
 
 console.log("Bob" - "bill");
-// Prediction:nan
-// Actual:
+// Prediction:nan its two strings, not numbers
+// Actual:nan
 
