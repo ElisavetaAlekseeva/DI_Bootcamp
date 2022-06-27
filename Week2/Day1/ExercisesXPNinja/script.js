@@ -43,6 +43,9 @@ console.log(true != true);
 
 
 // Exercise 2 : Ask For Numbers
+// Ask the user for a string of numbers separated by commas
+// Console.log the sum of the numbers.
+// Hint: use some string methods
 let person = prompt('enter a string of numbers separated by commas, please');
 let sumPerson = person.trim().split(",");
 // const result = sumPerson.reduce((a, b) => Number(a) + Number(b), 0);
@@ -52,3 +55,27 @@ for (let i = 0; i < sumPerson.length; i++) {
 };
 console.log(result);
 
+
+
+// Exercise 3 : Find Nemo
+// Instructions
+// Hint: if statement (tomorrow’s lesson)
+// Ask the user to give you a sentence containing the word “Nemo”. For example "I love the movie named Nemo"
+// Find the word “Nemo”
+// Console.log a string as follows: "I found Nemo at [the position of the word Nemo]".
+// If you can’t find Nemo, console.log “I can’t find Nemo”.
+
+let a = prompt('enter a sentence containing the word “Nemo”');
+    // b = a.indexOf('Nemo');
+    // alert("I found Nemo at" + " " + b);
+let b = a.split(" ");
+let find = false;
+for (let k = 0; k < b.length; k++){
+    if (b[k].trim() === "Nemo"){
+        alert("I found Nemo at" + " " + k);
+        find = true;
+    } 
+}
+if(!find){
+    alert('~Nemo not found')
+}
