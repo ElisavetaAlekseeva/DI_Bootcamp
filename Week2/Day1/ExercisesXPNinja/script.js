@@ -42,12 +42,13 @@ console.log(true != true);
 
 
 
-
 // Exercise 2 : Ask For Numbers
 let person = prompt('enter a string of numbers separated by commas, please');
-let sumPerson = person.trim();
-let sumPerson1 = sumPerson.replace(/,/g, '+');
-typeof(sumPerson1) == Number;
-let a = sumPerson1;
-console.log(a);
+let sumPerson = person.trim().split(",");
+// const result = sumPerson.reduce((a, b) => Number(a) + Number(b), 0);
+let result = 0
+for (let i = 0; i < sumPerson.length; i++) {
+    result += Number(sumPerson[i]);
+};
+console.log(result);
 
