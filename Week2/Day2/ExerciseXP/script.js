@@ -70,3 +70,16 @@ if (users.length === 0) {
  }
 
 
+
+
+
+
+
+
+
+ let obj = { 
+    username : '123',
+    password :'wi12',
+ }
+ let database = obj.strim('')
+ console.log(database);
