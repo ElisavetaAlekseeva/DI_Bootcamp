@@ -7,3 +7,12 @@ for (let i = 0; i < 7; i++ ){
     a += '*'
     console.log(a);
 }
+
+let str = '* '
+let sum = '';
+for (let i = 0; i < 7; i++) {
+    for (let k = 0; k < 1; k++) {
+       sum += str;
+    }
+    console.log(sum)
+}
