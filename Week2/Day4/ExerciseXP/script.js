@@ -176,15 +176,15 @@ function changeEnough(itemPrice, amountOfChange) {
 // Bonus: Instead of using a prompt inside the 3 first functions, only use a prompt inside the totalVacationCost() function. You need to change the 3 first functions, accordingly.
 
 
-// function hotelCost() {
-//    let numberOfNights = 0;
-//    do{
-//       numberOfNights = prompt('Enter the number of nights you would like to stay in the hotel');
-//    } while(isNaN(numberOfNights) || numberOfNights == 0);
-//    let price = 140 * numberOfNights;
-//    console.log(price);
-// }
-// hotelCost()
+function hotelCost() {
+   let numberOfNights = 0;
+   do{
+      numberOfNights = prompt('Enter the number of nights you would like to stay in the hotel');
+   } while(isNaN(numberOfNights) || numberOfNights == 0);
+   let price = 140 * numberOfNights;
+   console.log(price);
+}
+hotelCost()
 
 function planeRideCost(){
     let destination;
