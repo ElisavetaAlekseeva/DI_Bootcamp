@@ -63,6 +63,59 @@ function p1Hover(){
 
 
 
+// 🌟 Exercise 2 : Work With Forms
+// Instructions
+// Copy the code below, into a structured HTML file:
+// <form>
+//   <label for="fname">First name:</label><br>
+//   <input type="text" id="fname" name="fname"><br>
+//   <label for="lname">Last name:</label><br>
+//   <input type="text" id="lname" name="lname"><br><br>
+//   <input type="submit" value="Submit" id="submit">
+// </form> 
+// <ul class="usersAnswer"></ul>
+// Retrieve the form and console.log it.
+// Retrieve the inputs by their id and console.log them.
+// Retrieve the inputs by their name attribute and console.log them.
+// When the user submits the form (ie. submit event listener)
+// use event.preventDefault(), why ?
+// get the values of the input tags,
+// make sure that they are not empty,
+// create an li per input value,
+// then append them to a the <ul class="usersAnswer"></ul>, below the form.
+//1
+let form = document.forms[0]
+let form1 = document.getElementsByTagName('form')[0]
+console.log(form1);
+//2
+let fname = document.getElementById('fname')
+console.log(fname);
+let lname = document.getElementById('lname')
+console.log(lname);
+let submit = document.getElementById('submit')
+console.log(submit);
+//3
+let name1 = document.getElementsByName('fname')
+let name2 = document.getElementsByName('lname')
+//4
+let ul = document.getElementsByClassName('usersAnswer')[0]
+console.log(ul);
+let formF = document.getElementsByTagName('form')[0]
+formF.addEventListener('click', function(event){
+    event.preventDefault()
+    let inpt1 = document.getElementsByTagName('input')[0].value
+    let inpt2 = document.getElementsByTagName('input')[1].value
+    if (inpt1.length > 0  && inpt2.length > 0) {
+    console.log(inpt1 + ' ' + inpt2);
+    let li1 = document.createElement('li')
+    let li2 = document.createElement('li')
+    li1.innerText = inpt1
+    li2.innerText = inpt2
+     ul.appendChild(li1)
+     ul.appendChild(li2)
+    }
+})
+
 
 // 🌟 Exercise 3 : Transform The Sentence
 // Instructions
@@ -130,6 +183,32 @@ ex5()
 
 
 
+
+
+
+
+// 🌟 Exercice 4 : Volume Of A Sphere
+// Instructions
+// Write a JavaScript program to calculate the volume of a sphere. Use the code below as a base:
+let form = document.forms[0]
+let btn = document.getElementById('submit')
+let vol = document.getElementById('volume')
+let volume
+btn.addEventListener('click', function(event) {
+    event.preventDefault()
+    let radius = document.getElementById('radius').value
+    if (!isNaN(radius) && radius > 0) {
+        let pow = Math.pow (radius, 3)
+        volume = (4 * Math.PI * pow) / 3 
+        console.log(volume);
+        vol.value = volume
+    }
+})
+
+
+
+
+
 // Exercise 5 : Event Listeners
 // Instructions
 // Add many events listeners to one element on your webpage. Use the click, mouseover, mouseout and dblclick events.
@@ -152,3 +231,9 @@ function clickPrgrph() {
     document.getElementsByTagName('p')[0].style.display = 'none'
 }
 
+
+
+
+// 🌟 Exercice 4 : Volume Of A Sphere
+// Instructions
+// Write a JavaScript program to calculate the volume of a sphere. Use the code below as a base:
