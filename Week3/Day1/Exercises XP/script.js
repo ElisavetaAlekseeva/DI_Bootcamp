@@ -19,27 +19,27 @@
 // Bonus - Using Javascript:
 // Add a class called student_list to both of the <ul>'s.
 // Add the classes university and attendance to the first <ul>.
-let div = document.getElementsByTagName('div')
-console.log(div);
+// let div = document.getElementsByTagName('div')
+// console.log(div);
 
-let john = document.querySelector('.list li')
-let pete = john.nextElementSibling
-pete.innerHTML = 'Richard'
+// let john = document.querySelector('.list li')
+// let pete = john.nextElementSibling
+// pete.innerHTML = 'Richard'
 
-let myNameFirstUl = document.querySelector('.list li')
-console.log(myNameFirstUl.innerText = 'Lisa');
-let secondUl = document. getElementsByTagName('ul')[1]
-let myNamesecondUl = secondUl.firstElementChild
-myNamesecondUl.innerText = 'Lisa'
+// let myNameFirstUl = document.querySelector('.list li')
+// console.log(myNameFirstUl.innerText = 'Lisa');
+// let secondUl = document. getElementsByTagName('ul')[1]
+// let myNamesecondUl = secondUl.firstElementChild
+// myNamesecondUl.innerText = 'Lisa'
 
-let secondUlList = document.getElementsByTagName('ul')[1]
-let sarah = secondUlList.getElementsByTagName('li')[1].remove() 
+// let secondUlList = document.getElementsByTagName('ul')[1]
+// let sarah = secondUlList.getElementsByTagName('li')[1].remove() 
 
-let ul = document.getElementsByTagName('ul')
-ul[0].classList.add('student_list');
-ul[1].classList.add('student_list');
+// let ul = document.getElementsByTagName('ul')
+// ul[0].classList.add('student_list');
+// ul[1].classList.add('student_list');
 
-ul[0].classList.add('university', 'attendance')
+// ul[0].classList.add('university', 'attendance')
 
 
 
@@ -56,9 +56,11 @@ ul[0].classList.add('university', 'attendance')
 // Add a border to the <li> that contains the text node “Pete”.
 // Change the font size of the whole body.
 // Bonus: If the background color of the div is “light blue”, alert “Hello x and y” (x and y are the users in the div).
-//2
-let  divBG = document.getElementsByTagName('div')[0].style.background = "lightblue"
+2
+let  divBG = document.getElementsByTagName('div')[0]
+divBG.style.background = "lightblue"
 divBG.style.padding = '20px'
+
 //3
 let firstLi = document.getElementsByTagName('li')[0].style.display = 'none'
 //4
@@ -91,18 +93,18 @@ let fontSize = document.body.style.fontSize = '30px'
 // Bonus
 // Use the firstElementChild and the lastElementChild properties to retrieve the first and last <li> elements from their parent element (<ul>). Display the text of each link. (Hint: use the textContent property).
 //2
-let divChangeId = document.getElementById('navBar').setAttribute('id', 'socialNetworkNavigation')
-//3
-let newLi = document.createElement('li')
-document.getElementsByTagName('ul')[0].appendChild(newLi)
+// let divChangeId = document.getElementById('navBar').setAttribute('id', 'socialNetworkNavigation')
+// //3
+// let newLi = document.createElement('li')
+// document.getElementsByTagName('ul')[0].appendChild(newLi)
 
-let liTag = document.createTextNode('Logout')
-document.getElementsByTagName('ul')[0].lastElementChild.appendChild(liTag)
-console.log(liTag);
-//4
-let firstLi = document.getElementsByTagName('ul')[0].firstElementChild.textContent
-let lastLi = document.getElementsByTagName('ul')[0].lastElementChild.textContent
-console.log(firstLi + ' ' + lastLi);
+// let liTag = document.createTextNode('Logout')
+// document.getElementsByTagName('ul')[0].lastElementChild.appendChild(liTag)
+// console.log(liTag);
+// //4
+// let firstLi = document.getElementsByTagName('ul')[0].firstElementChild.textContent
+// let lastLi = document.getElementsByTagName('ul')[0].lastElementChild.textContent
+// console.log(firstLi + ' ' + lastLi);
 
 
 
