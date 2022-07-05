@@ -19,31 +19,27 @@
 // Bonus - Using Javascript:
 // Add a class called student_list to both of the <ul>'s.
 // Add the classes university and attendance to the first <ul>.
-let a = document.getElementsByTagName('div')
-console.log(a);
+let div = document.getElementsByTagName('div')
+console.log(div);
 
-let b = document.querySelector('.list li')
-console.log(b.nextElementSibling.innerText = 'Richard');
+let john = document.querySelector('.list li')
+let pete = john.nextElementSibling
+pete.innerHTML = 'Richard'
 
-let c = document.querySelector('.list li')
-console.log(c.innerText = 'Lisa');
-let d = document.querySelector('.list')
-console.log(d.nextElementSibling.firstElementChild.innerText = 'Lisa');
+let myNameFirstUl = document.querySelector('.list li')
+console.log(myNameFirstUl.innerText = 'Lisa');
+let secondUl = document. getElementsByTagName('ul')[1]
+let myNamesecondUl = secondUl.firstElementChild
+myNamesecondUl.innerText = 'Lisa'
 
-let e = document.querySelector('.list')
-let f = e.nextElementSibling.firstElementChild.innerText
-let g = e.nextElementSibling
-let h = g.firstElementChild.nextElementSibling.remove()
-console.log(g);
+let secondUlList = document.getElementsByTagName('ul')[1]
+let sarah = secondUlList.getElementsByTagName('li')[1].remove() 
 
-let i = document.getElementsByTagName('ul')
-console.log(i);
-i[0].classList.add('student_list');
+let ul = document.getElementsByTagName('ul')
+ul[0].classList.add('student_list');
+ul[1].classList.add('student_list');
 
-let j = document.getElementsByTagName('ul')
-j.firstElementChild
-console.log(j);
-j[0].classList.add('university', 'attendance')
+ul[0].classList.add('university', 'attendance')
 
 
 
@@ -61,14 +57,14 @@ j[0].classList.add('university', 'attendance')
 // Change the font size of the whole body.
 // Bonus: If the background color of the div is “light blue”, alert “Hello x and y” (x and y are the users in the div).
 //2
-let a = document.getElementsByTagName('div')[0].style.background = "lightblue"
-document.getElementsByTagName('div')[0].style.padding = '20px'
+let  divBG = document.getElementsByTagName('div')[0].style.background = "lightblue"
+divBG.style.padding = '20px'
 //3
-let b = document.getElementsByTagName('li')[0].style.display = 'none'
+let firstLi = document.getElementsByTagName('li')[0].style.display = 'none'
 //4
-let c = document.getElementsByTagName('li')[1].style.border = "3px black solid"
+let secondLi = document.getElementsByTagName('li')[1].style.border = "3px black solid"
 //5
-let e = document.body.style.fontSize = '30px'
+let fontSize = document.body.style.fontSize = '30px'
 
 
 
@@ -95,18 +91,18 @@ let e = document.body.style.fontSize = '30px'
 // Bonus
 // Use the firstElementChild and the lastElementChild properties to retrieve the first and last <li> elements from their parent element (<ul>). Display the text of each link. (Hint: use the textContent property).
 //2
-let a = document.getElementById('navBar').setAttribute('id', 'socialNetworkNavigation')
+let divChangeId = document.getElementById('navBar').setAttribute('id', 'socialNetworkNavigation')
 //3
-let b = document.createElement('li')
-document.getElementsByTagName('ul')[0].appendChild(b)
+let newLi = document.createElement('li')
+document.getElementsByTagName('ul')[0].appendChild(newLi)
 
-let c = document.createTextNode('Logout')
-document.getElementsByTagName('ul')[0].lastElementChild.appendChild(c)
-console.log(b);
+let liTag = document.createTextNode('Logout')
+document.getElementsByTagName('ul')[0].lastElementChild.appendChild(liTag)
+console.log(liTag);
 //4
-let d = document.getElementsByTagName('ul')[0].firstElementChild.textContent
-let e = document.getElementsByTagName('ul')[0].lastElementChild.textContent
-console.log(d + ' ' + e);
+let firstLi = document.getElementsByTagName('ul')[0].firstElementChild.textContent
+let lastLi = document.getElementsByTagName('ul')[0].lastElementChild.textContent
+console.log(firstLi + ' ' + lastLi);
 
 
 
@@ -130,38 +126,38 @@ console.log(d + ' ' + e);
 // The width of the image has to be set to 100px.
 // If the book is already read. Set the color of the book’s details to red.
 
-let allBooks = [
-    {
-        title:'HarryPotter',
-        author:'Rowling',
-        image:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Harry_Potter_wordmark.svg/1920px-Harry_Potter_wordmark.svg.png'.width='100px',
-        alreadyRead: false
-    }, 
-    {
-        title: '1984',
-        author: 'Orwell',
-        image: 'https://images.gr-assets.com/authors/1588856560p5/3706.jpg'.width='100px',
-        alreadyRead: false
-    }
-];
+// let allBooks = [
+//     {
+//         title:'HarryPotter',
+//         author:'Rowling',
+//         image:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Harry_Potter_wordmark.svg/1920px-Harry_Potter_wordmark.svg.png'.width='100px',
+//         alreadyRead: false
+//     }, 
+//     {
+//         title: '1984',
+//         author: 'Orwell',
+//         image: 'https://images.gr-assets.com/authors/1588856560p5/3706.jpg'.width='100px',
+//         alreadyRead: false
+//     }
+// ];
 
 
-    let tbl = document.createElement('table')
-    document.createElement('table')
-    document.getElementsByTagName('div')[0].appendChild(tbl)
-    tbl.style.width = '100px'
-    tbl.style.height = '100px'
-    tbl.style.border = '3px solid red'
+//     let tbl = document.createElement('table')
+//     document.createElement('table')
+//     document.getElementsByTagName('div')[0].appendChild(tbl)
+//     tbl.style.width = '100px'
+//     tbl.style.height = '100px'
+//     tbl.style.border = '3px solid red'
 
  
-    for (let i = 0; i < allBooks.length; i++) {
-        let cell;
-        for (const key in allBooks[i]){
-            cell.innertext = value;
-        }
-        cell ++
-    }
+//     for (let i = 0; i < allBooks.length; i++) {
+//         let cell;
+//         for (const key in allBooks[i]){
+//             cell.innertext = value;
+//         }
+//         cell ++
+//     }
 
-    console.log(tbl);
+//     console.log(tbl);
 
 
