@@ -3,7 +3,7 @@ let color_row = 8
 let color_count = color_col * color_row
 
 let main_col = 60
-let main_rows = 50
+let main_rows = 60
 let main_count = main_col * main_rows
 
 let clicked = true
