@@ -146,7 +146,7 @@
 # sum = 0
 # print(family_ages)
 # for x in family_ages:
-#     if (3 < int(x)) & (int(x) <= 12):
+#     if (3 <= int(x)) & (int(x) <= 12):
 #         sum += 10
 #     elif int(x) > 12:
 #         sum += 15
