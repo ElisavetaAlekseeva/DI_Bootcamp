@@ -40,6 +40,9 @@ can_afford = []
 cant_afford = []
 for key, price in items_purchase.items():
     money = price.replace(price[0], '')
+    if ',' in money:
+        money = money.split(',')
+        money = ''.join(money)
     if int(money) <= money_in_wallet:
         can_afford.append(key)
     else:
