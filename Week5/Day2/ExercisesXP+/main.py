@@ -14,14 +14,14 @@
 # family_presentation: a method that prints the family’s last name and all the members’ first name.
 
 from ast import Try
-
+from typing import List, Dict 
 
 class Family:
-    def __init__(self, members, last_name) -> None:
+    def __init__(self, members:List[Dict], last_name:str) -> object:
         self.members = members
         self.last_name = last_name
 
-    def born(self, child):
+    def born(self, **child):
         self.members.append(child)
         print('message congratulating the family')
         print(self.members)
@@ -48,10 +48,10 @@ Alexeev = Family([
 ], 'Alexeev')
 
 
-Alexeev.born({'name':'Du','age':1,'gender':'Male','is_child':True})
+Alexeev.born(name ='Du',age = 1,gender = 'Male',is_child = True)
 Alexeev.family_presentation()
 print(Alexeev.is_18('Michael'))
-print('------')
+
 
 
 

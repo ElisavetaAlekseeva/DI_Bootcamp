@@ -79,6 +79,6 @@ alphabetList = list("abcdefghijklmnopqrstuvwxyz")
 p = Pagination(alphabetList, 4)
 p.getVisibleItems()
 
-p.goToPage(7)
+p.nextPage()
 
 p.getVisibleItems()
