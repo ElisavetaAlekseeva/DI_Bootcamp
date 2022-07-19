@@ -1,0 +1,37 @@
+import random
+import string
+from main import Dog
+
+class PetDog(Dog):
+    def __init__(self, name, age, weight) -> None:
+        super().__init__(name, age, weight)
+        self.trained = False
+    def train(self):
+        print(self.bark)
+        self.trained = True
+
+    def play(*dogs):
+        dogs_names = ''
+        for dog in dogs:
+            dogs_names += dog.name + ' '
+
+        print(f'{dogs_names} all play together')
+
+    def do_a_trick(self):
+        choose_from_list = [f"{self.name} does a barrel roll",f"{self.name} stands on his back legs",f"{self.name} shakes your hand",f"{self.name} plays dead"]
+        if self.trained:
+            rand = random.choice(choose_from_list)
+            print(rand)
+
+
+dog_1 = PetDog('Bobik', 10, 45)
+dog_2 = PetDog('Sharik', 3, 15)
+dog_3 = PetDog('Funtik', 6, 60)
+dog_1.train()
+dog_3.train()
+
+dog_1.do_a_trick()
+dog_2.do_a_trick()
+dog_3.do_a_trick()
+
+          
