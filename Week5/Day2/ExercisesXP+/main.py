@@ -77,11 +77,10 @@ class TheIncredibles(Family):
         self.last_name = last_name
     def use_power (self):
         for member in self.members:
-                try:
                     if member['age'] >= 18:
                         print(member['name'] + ': ' + member['power'])
-                except:
-                        print('little kid')
+                    else:
+                        raise ValueError('little kid')
 
     
     def incredible_presentation(self):
