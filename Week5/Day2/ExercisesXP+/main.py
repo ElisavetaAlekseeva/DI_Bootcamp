@@ -94,5 +94,5 @@ Alexeev = TheIncredibles([
     {'name':'Sarah','age':32,'gender':'Female','is_child':False,'power': 'read minds','incredible_name':'SuperWoman'}
 ], 'Alexeev')
 # Alexeev.use_power()
-Alexeev.born({'name':'Jack ','age':1,'gender':'Male','is_child':True, 'power': 'Unknown Power', 'incredible_name':'Baby Jack'})
+Alexeev.born(name ='Du',age = 1,gender = 'Male',is_child = True, power = 'Unknown Power', incredible_name ='Baby Jack')
 Alexeev.incredible_presentation()
