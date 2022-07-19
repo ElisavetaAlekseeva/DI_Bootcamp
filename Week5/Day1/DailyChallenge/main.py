@@ -23,26 +23,36 @@
 # Expand The Farm
 # Add a method called get_animal_types to the Farm class. This method should return a sorted list of all the animal types (names) in the farm. With the example above, the list should be: ['cow', 'goat', 'sheep'].
 # Add another method to the Farm class called get_short_info. This method should return the following string: “McDonald’s farm has cows, goats and sheep.”. The method should call the get_animal_types function to get a list of the animals.
-animals = {}
 class Farm:
     def __init__(self,name) -> None:
         self.name = name
+        self.animals = {}
+
         print(f'{self.name}\'s farm')
-    def add_animal(self, animal, number = 1):
-        if animal in animals.keys():
-            number += 1
-        animals[animal] = number
+        
+    def add_animal(self, animal, quantity = 1):
+        if animal in self.animals.keys():
+            quantity += 1
+        self.animals[animal] = quantity
+
     def get_info(self):
-        return animals
+        return self.animals
 
     def get_animal_types(self):
-        key_list = list(animals.keys())
+        key_list = list(self.animals.keys())
         return sorted(key_list)
-    
         
     def get_short_info(self, *anymals):
         all = self.get_animal_types()
         return f"McDonalds farm has {', '.join(all)}"
+        
+    # def get_short_info(self):
+    #     output = f'{self.name}\'s Farm\n\n'
+    #     output += f'\n\nE-I-E-I-O'
+    #     for animal, quantity in self.animals.items():
+    #         output = f'{self.name}'
+    #         output += f'\n\nE-I-E-I-O'
+
 macdonald = Farm("McDonald")
 macdonald.add_animal('cow', 5)
 macdonald.add_animal('sheep')
