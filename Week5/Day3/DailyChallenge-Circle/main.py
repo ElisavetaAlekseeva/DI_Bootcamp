@@ -17,6 +17,10 @@ class Circle:
         self.radius = radius
         self.diameter = radius * 2
         print (f'New circle:  {self}')
+    @classmethod
+    def from_diameter(cls, diameter):
+        new_circle = Circle(diameter/2)
+        return new_circle
 
     def area(self):
         return self.radius ** 2 * pi
@@ -45,7 +49,10 @@ class Circle:
 
 
 a = Circle(4)
-b = Circle(5)
+b = Circle.from_diameter(4)
+print(f'r-{a.radius} d-{a.diameter}')
+print(f'r-{b.radius} d-{b.diameter}')
+
 print(a)
 print(a.area())
 c = a+b
