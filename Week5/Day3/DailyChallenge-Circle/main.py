@@ -10,15 +10,16 @@
 # Be able to compare two circles and see if there are equal
 # Be able to put them in a list and sort them
 from cmath import pi
-
+import turtle
 
 class Circle:
-    def __init__(self, radius) -> None:
+    def __init__(self, radius:int) -> object:
         self.radius = radius
         self.diameter = radius * 2
         print (f'New circle:  {self}')
+
     @classmethod
-    def from_diameter(cls, diameter):
+    def from_diameter(cls, diameter:int) -> object:
         new_circle = Circle(diameter/2)
         return new_circle
 
@@ -43,10 +44,11 @@ class Circle:
 
     def __repr__(self):
         return str(self.radius)
+
+    def print_circle(self):
+        output = turtle.circle(self.area())
+        return output
     
-
-
-
 
 a = Circle(4)
 b = Circle.from_diameter(4)
@@ -54,7 +56,7 @@ print(f'r-{a.radius} d-{a.diameter}')
 print(f'r-{b.radius} d-{b.diameter}')
 
 print(a)
-print(a.area())
+a.print_circle()
 c = a+b
 print(b > a)
 list = [b, a]
