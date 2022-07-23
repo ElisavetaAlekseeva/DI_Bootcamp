@@ -48,7 +48,7 @@ class Circle:
     def print_circle(self):
         output = turtle.circle(self.area())
         return output
-    
+
 
 a = Circle(4)
 b = Circle.from_diameter(4)
