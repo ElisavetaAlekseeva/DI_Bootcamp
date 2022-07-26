@@ -63,9 +63,14 @@
 -- select * from film where film_id = 15 or film_id = 150
 
 -- 8
--- SELECT EXISTS(SELECT film_id, title, description, length, rental_rate FROM film)
+--SELECT film_id, title, description, length, rental_rate 
+--FROM film 
+--where title ilike '%dynamite%'
 
 -- 9
+--SELECT film_id, title, description, length, rental_rate 
+--FROM film 
+--where title ilike 'st%'
 
 -- 10
 -- select * from film  order by rental_rate asc limit 10
@@ -89,11 +94,12 @@
 -- inner join country
 -- on city.country_id = country.country_id
 
+-- 15
 
-
-
-
-
+select c.first_name ||' '|| c.last_name as customer_name, s.first_name ||' '|| s.last|_name as staff_name
+from customer as c
+inner join staff as s
+on s.store_id = s.store_id
 
 
 
