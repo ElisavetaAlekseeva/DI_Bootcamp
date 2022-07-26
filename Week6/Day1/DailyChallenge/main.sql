@@ -1,5 +1,5 @@
 -- 1
-select count(actor_id) from actors;
+select count(*) from actors;
 -- 2
 insert into actors (first_name, last_name, age, number_oscars)
 values
