@@ -1,3 +1,4 @@
+import MenuItem from xp
 
 def load_manager(name, price):
     return MenuItem(name, price)
@@ -11,14 +12,14 @@ def show_user_menu():
     (x) Exit
     """)
     user_input = input('Your choice: ')
-    if user_input == 'a':
-        add_item_to_menu()
-    elif user_input == 'd':
-        remove_item_from_menu()
-    elif user_input == 'v':
-        show_restaurant_menu()
-    elif user_input == 'x':
-        break
+    
+        if user_input == 'a':
+            add_item_to_menu()
+        elif user_input == 'd':
+            remove_item_from_menu()
+        elif user_input == 'v':
+            show_restaurant_menu()
+        
     
 
 def add_item_to_menu():
@@ -34,4 +35,4 @@ def remove_item_from_menu():
     MenuItem.delete(name)
 
 def show_restaurant_menu():
-    MenuItem.all()
+    print(MenuItem.all())
