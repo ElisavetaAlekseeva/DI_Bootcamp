@@ -1,0 +1,78 @@
+1. Activate VENV
+
+2. Django-admin startproject <project_name>
+
+3. Python3 manage.py startapp <app_name>
+
+4. In settings.py add <app_name> to INSTALLED_APPS
+
+5. In models.py create models
+    *add __str__ (to print out what i want)
+
+6. Connect to database
+    * in settings.py specify database
+    * make migrationspython (python3 manage.py makemigrations)
+    * migrate (python3 manage.py migrate)
+
+7. in views.py create views
+    * import model (from .models import Models)
+
+8. ~on the way~ 
+    * From <app_name>.models import Models
+    * Try stuff before applying 
+example:
+    >>> from oneonefour.models import Person
+    >>> p1 = Person(name = 'Brad', email = 'brad@gmail.com', phone_number = '+083487')
+    >>> p1.save()
+    >>> p1.address = 'Tel Aviv'
+    >>> p1.save()
+>>> >>> Person.objects.create(name = 'Roi', email = 'ufgb@kj.com', address = 'TF', phone_number = '921736')
+    <Person: Roi 921736>
+    >>> Person.objects.all() 
+
+9. 
+    * create views (def...(request):...)
+    * return render(request, template,dict)
+ views.py example:
+    from django.http import HttpResponse
+    def get_by_name(request, name):
+    person = Person.objects.get(name = name)
+    return render(request, 'info.html', {'person':person})
+
+10. create templates
+    * create folder templates
+    * inside templates, create .html file
+example:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info</title>
+</head>
+<body>
+    Name: {{person.name}}
+    <br>
+    Number: {{person.phone_number}}
+    <br>
+    Address: {{person.address}}
+    <br>
+    Email: {{person.email}}
+</body>
+</html>
+
+11. connect urls
+    * Create urls.py in <app_name> folder
+    * connect <project_name>.urls.py to  <app_name>.urls.py
+
+example:
+from django.urls import path,include
+from django.contrib import admin
+from .views import (get_by_name)
+urlpatterns = [
+    path('info/<str:name>', get_by_name, name = 'get_by_name')
+]
+
+
+12. Runserver (python3 manage.py runserver)

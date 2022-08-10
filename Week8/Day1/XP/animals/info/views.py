@@ -18,9 +18,14 @@ def show_family(request,id):
     return render(request, 'family.html', family_selected)
 
 
-def show_animals(request,id):
+def show_animal(request,id):
     animal_selected = None
     for animal in animals:
         if animal['id'] == id:
             animal_selected = animal
     return render(request, 'animal.html', animal_selected)
+
+
+def show_animals(request):
+
+    return render(request, 'animals.html', {'animals': animals})

@@ -7,7 +7,8 @@
             "weight": 5.67,
             "height":4.2,
             "speed": 34,
-            "family": 2
+            "family": 2,
+            "image": "dog.jpeg"
         },
         {
             "id": 2,
@@ -16,7 +17,9 @@
             "weight": 5.67,
             "height":4.2,
             "speed": 34,
-            "family": 1
+            "family": 1,
+            "image": "cat.jpeg"
+
         },
         {
             "id": 3,
@@ -25,7 +28,9 @@
             "weight": 5.67,
             "height":4.2,
             "speed": 34,
-            "family": 1 
+            "family": 1,
+            "image": "panther.jpeg"
+
         }
     ],
     "families": [
