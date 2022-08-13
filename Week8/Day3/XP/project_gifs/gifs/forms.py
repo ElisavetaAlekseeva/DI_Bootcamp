@@ -3,6 +3,7 @@ from unicodedata import name
 from django import forms
 from .models import Category_model, Gif_model
 
+
 class Category_form(forms.Form):
     name = forms.CharField(min_length=3, max_length=50)
 

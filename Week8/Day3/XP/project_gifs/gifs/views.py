@@ -8,6 +8,7 @@ from .forms import Category_form, Gif_form
 
 def create_category(request):
 
+
     if request.method == 'POST':
         form_filled = Category_form(request.POST)
         if form_filled.is_valid():
