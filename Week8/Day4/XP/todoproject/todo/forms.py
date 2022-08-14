@@ -9,6 +9,6 @@ class Category_form(forms.Form):
 class ToDO_form(forms.Form):
 
     title = forms.CharField()
-    details = forms.Textarea()
+    details = forms.CharField(widget=forms.Textarea)
     deadline_date = forms.DateField()
     category = forms.ModelChoiceField(queryset=Category_mod.objects.all())

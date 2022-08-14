@@ -23,7 +23,7 @@ class ToDO_mod(models.Model):
     date_creation = models.DateField(auto_now_add=True)
     date_completion = models.DateField(null=True)
     deadline_date = models.DateField()
-    category = models.ForeignKey(Category_mod, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category_mod, related_name='todos', on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.title
