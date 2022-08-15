@@ -1,0 +1,28 @@
+{% extends 'partials/base.html' %}
+
+{% block content %}
+
+    {{director}}
+    <br>
+
+      <a href="{% url 'update_director' director.id %}"><button type="submit">Update details</button></a> 
+
+
+    {% for folm in films %}
+        <div>
+            
+            <br>
+            Title: {{ film.title }}
+            <br>
+            Genre: 
+            {% for cat in film.categories.all %}
+                {{ cat }} |
+            {% endfor %}
+            <br>
+            Released at : {{ film.released_date }}
+
+        </div>
+    {% endfor %}
+
+
+{% endblock content%}

@@ -1,0 +1,32 @@
+
+
+
+
+{% extends 'partials/base.html' %}
+{% block content %}
+<div>
+
+    {% for film in films %}
+        <div class="card" style="width: 18rem;">
+            <img src="{{film.image}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Title: {{ film.title }}</h5>
+              <p class="card-text">Genre: 
+                {% for cat in film.categories.all %}
+                    {{ cat }} |
+                {% endfor %}
+            <br>
+            <br>
+            Director :
+            {% for dir in film.directors.all %}
+                {{ dir }} |
+            {% endfor %}</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+       
+
+    {% endfor %}
+</div>
+
+{% endblock content%}
