@@ -36,37 +36,37 @@ def add_director(request):
     return render(request, 'add_director.html', context)
 
 
-def update_film(request, id):
-    film = Film.objects.get(id=id)
-    form = FilmForm(instance=film)
-    context.update({'form': form})
+# def update_film(request, id):
+#     film = Film.objects.get(id=id)
+#     form = FilmForm(instance=film)
+#     context.update({'form': form})
 
-    if request.method == 'POST':
-        form_field = FilmForm(request.POST, instance=film)
-        if form_field.is_valid():
-            form_field.save()
-            return redirect('homepage')
-        else:
-            return redirect('update_film', args=[id])
+#     if request.method == 'POST':
+#         form_field = FilmForm(request.POST, instance=film)
+#         if form_field.is_valid():
+#             form_field.save()
+#             return redirect('homepage')
+#         else:
+#             return redirect('update_film', args=[id])
 
-    return render(request, 'update_film.html', context)
+#     return render(request, 'update_film.html', context)
 
 
 
-def update_director(request, id):
-    dir = Director.objects.get(id=id)
-    form = DirectorForm(instance=dir)
-    context.update({'form': form})
+# def update_director(request, id):
+#     dir = Director.objects.get(id=id)
+#     form = DirectorForm(request.POST or None, instance=dir)
+#     context.update({'form': form})
 
-    if request.method == 'POST':
-        form_field = FilmForm(request.POST, instance=dir)
-        if form_field.is_valid():
-            form_field.save()
-            return redirect('homepage')
-        else:
-            return redirect('update_director', args=[id])
+#     if request.method == 'POST':
+#         form_field = FilmForm(request.POST, instance=dir)
+#         if form_field.is_valid():
+#             form_field.save()
+#             return redirect('homepage')
+#         else:
+#             return redirect('update_director', args=[id])
 
-    return render(request, 'update_director.html', context)
+#     return render(request, 'update_director.html', context)
 
 
 def director_films(request, id):
@@ -75,3 +75,32 @@ def director_films(request, id):
     context.update({'director': director,'films': films})
     return render(request, 'director_films.html', context)
 
+
+def about_film(request, id):
+    film = Film.objects.get(id=id)
+    context = {'film':film}
+    return render(request, 'about_film.html', context)
+
+    
+    
+
+
+
+def update_director(request, id):
+    dir = Director.objects.get(id=id)
+    form = DirectorForm(request.POST or None, instance=dir)
+    context.update({'form': form})
+    if form.is_valid():
+        form.save()
+        return redirect('homepage')
+    return render(request, 'update_director.html', context)
+
+
+def update_film(request, id):
+    film = Film.objects.get(id=id)
+    form = FilmForm(request.POST or None, instance=film)
+    context.update({'form': form})
+    if form.is_valid():
+        form.save()
+        return redirect('homepage')
+    return render(request, 'update_film.html', context)

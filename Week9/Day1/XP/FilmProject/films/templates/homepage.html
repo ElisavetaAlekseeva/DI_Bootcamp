@@ -4,10 +4,10 @@
 
 {% extends 'partials/base.html' %}
 {% block content %}
-<div>
+<div class="hp" style="display: grid; grid-template-columns: 1fr 1fr 1fr; margin: 10px;">
 
     {% for film in films %}
-        <div class="card" style="width: 18rem;">
+        <div class="card" style="padding: 20px;">
             <img src="{{film.image}}" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">Title: {{ film.title }}</h5>
@@ -21,7 +21,8 @@
             {% for dir in film.directors.all %}
                 {{ dir }} |
             {% endfor %}</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+              <a href="{% url 'about_film' film.id %}" class="btn btn-primary">Read More</a>
+              <a href="{% url 'update_film' film.id %}" class="btn btn-primary">Update</a>
             </div>
           </div>
        
