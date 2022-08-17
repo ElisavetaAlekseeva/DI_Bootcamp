@@ -1,28 +1,34 @@
 {% extends 'partials/base.html' %}
 
 {% block content %}
-
-    {{director}}
-    <br>
-
-      <a href="{% url 'update_director' director.id %}"><button type="submit">Update details</button></a> 
+<div style="margin: 20px;">
+   <h1> {{director}} </h1>
 
 
-    {% for film in films %}
-        <div>
-            
-            <br>
-            Title: {{ film.title }}
-            <br>
-            Genre: 
-            {% for cat in film.categories.all %}
-                {{ cat }} |
-            {% endfor %}
-            <br>
-            Released at : {{ film.release_date }}
+      <a href="{% url 'update_director' director.id %}"><button type="submit" class="btn btn-primary">Update details</button></a> 
 
-        </div>
-    {% endfor %}
+    <ul>
+        {% for film in films %}
+            <div>
+                
+                <br>
+                <li>
+                    Title: {{ film.title }}
+                </li>
+                <br>
+                <li>
+                    Genre: 
+                    {% for cat in film.categories.all %}
+                        {{ cat }} |
+                    {% endfor %}
+                </li>
+                <br>
+                <li>
+                    Released at : {{ film.release_date }}
+                </li>
 
-
+            </div>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock content%}

@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from .forms import FilmForm, DirectorForm
 from .models import Director, Film
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+
+
 
 context = {'films': Film.objects.all(), 'directors': Director.objects.all()}
 
 def homepage(request):
-    context = {'films': Film.objects.all(), 'directors': Director.objects.all()}
+    context = {'films': Film.objects.all(), 'directors': Director.objects.all(), 'formIn':AuthenticationForm, 'formUp': UserCreationForm}
     return render(request, 'homepage.html', context)
 
 def add_film(request):
@@ -13,11 +16,19 @@ def add_film(request):
 
     if request.method == 'POST':
         form_field = FilmForm(request.POST)
+        print('-------------')
+        print(request.POST)
+        print('-------------')
         if form_field.is_valid():
+            print('ADDED')
             form_field.save()
             return redirect('homepage')
         else:
             print(form_field.errors)
+            print('notADDED')
+            context.update({'form': form_field})
+            return render(request, 'add_film.html', context)
+
 
     return render(request, 'add_film.html', context)
 

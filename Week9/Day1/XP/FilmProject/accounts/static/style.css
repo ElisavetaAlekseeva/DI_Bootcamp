@@ -1,0 +1,21 @@
+#signin, #signup{
+    color: rgb(23, 20, 20);
+    border: 3px solid rgba(115, 114, 114, 0.306);
+    width: 50vw;
+    height: 50vw;
+    background-color: rgba(243, 243, 243, 0.939);
+    display: none;
+    position: fixed;
+    right: 33%;
+    bottom: 33%;
+    top: 25%;
+    z-index: 4;
+    padding: 20px;
+    box-shadow: 3px 5px rgba(174, 174, 174, 0.165);
+    border-radius: 20px;
+}
+
+
+/* .form-in{
+    text-align: center;
+} */

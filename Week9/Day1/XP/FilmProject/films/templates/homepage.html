@@ -1,10 +1,8 @@
-
-
-
-
 {% extends 'partials/base.html' %}
 {% block content %}
-<div class="hp" style="display: grid; grid-template-columns: 1fr 1fr 1fr; margin: 10px;">
+<!-- {% include 'signin.html' %} -->
+
+<div class="hp" style="display: grid; grid-template-columns: 1fr 1fr 1fr; margin: 10px; gap: 10px;">
 
     {% for film in films %}
         <div class="card" style="padding: 20px;">
@@ -26,8 +24,29 @@
             </div>
           </div>
        
+          <div  id="signin">
+            <form class="form form-in" method="post">
+                {% csrf_token %}
+                {{formIn.as_p}}
+                <button onclick="closeWindow()" type="submit">Signin</button>
+                <button onclick="openWindowSignup()" type="button">Signup</button>
+                <button type="button" onclick="closeWindow()">Cancel</button>
+
+            </form>
+          </div>
+
+
 
     {% endfor %}
+    <div id="signup">
+      <form class="form form-up" method="post">
+          {% csrf_token %}
+          {{formUp.as_p}}
+          <button type="submit">Signup</button>
+          <button type="button" onclick="closeWindow()">Cancel</button>
+      </form>
+    </div>
+
 </div>
 
 {% endblock content%}
