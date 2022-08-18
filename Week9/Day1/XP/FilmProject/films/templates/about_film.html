@@ -1,9 +1,21 @@
 
 {% extends 'partials/base.html' %}
 
+
 {% block content %}
+
+
 <div style="margin: 20px;">
-    <h1>{{film.title}}</h1>
+    <h1 id="title">{{film.title}}</h1>
+
+    <div class="stars_average">
+        <p class="star_average"><i class="fa-solid fa-star star-1 star-rating"></i></p>
+        <!-- <p class="star_average"><i class="fa-solid fa-star star-2 star-rating"></i></p> -->
+        <!-- <p class="star_average"><i class="fa-solid fa-star star-3 star-rating"></i></p> -->
+        <!-- <p class="star_average"><i class="fa-solid fa-star star-4 star-rating"></i></p> -->
+        <!-- <p class="star_average"><i class="fa-solid fa-star star-5 star-rating"></i></p> -->
+    </div>
+
     <br>
         <div>
             <br>
@@ -17,7 +29,50 @@
             Released at : {{ film.release_date }}
 
         </div>
-
+<br> <br>
+    <div class="rate" style="border: 2px gray solid;">
+        <h2>RATE AND REVIEW</h2>
+            <div class="stars-rate">
+                <button class="btnStar"><i class="fa-regular fa-star star-1 star-rate"></i></button>
+                <button class="btnStar"><i class="fa-regular fa-star star-2 star-rate"></i></button>
+                <button class="btnStar"><i class="fa-regular fa-star star-3 star-rate"></i></button>
+                <button class="btnStar"><i class="fa-regular fa-star star-4 star-rate"></i></button>
+                <button class="btnStar"><i class="fa-regular fa-star star-5 star-rate"></i></button>
+            </div>
+            <br><br>
+            <form method="post">
+                {% csrf_token %}
+                {{form}}  
+                <button class="post" type="submit">Post</button>
+            </form>
+    </div> 
 </div>
+
+<script>
+    let all_stars = document.querySelectorAll('.btnStar');
+    let average_stars = document.querySelectorAll('.star_average')
+    let btn_posted = document.querySelector('.post')
+    let posted = 0
+
+    btn_posted.onclick = function () {
+        posted+=1;
+    }
+
+    all_stars.forEach((btnStar, i) => {
+        btnStar.onclick = function () {
+            let current_star_level = i + 1;
+
+            all_stars.forEach((btnStar, k) => {
+                if (current_star_level >= k+1)
+                {
+                    btnStar.innerHTML = '<i class="fa-solid fa-star"></i>'
+                } else { 
+                    btnStar.innerHTML = '<i class="fa-regular fa-star"></i>'
+                }
+            })
+        }
+    }) 
+</script>
+
 
 {% endblock content%}

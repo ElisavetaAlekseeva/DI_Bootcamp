@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
 from .forms import ProfileForm
 from films.models import Director
+from .models import UserProfile
 
 directors = Director.objects.all()
 
@@ -23,14 +24,16 @@ def signup(request):
             password = form_filled.cleaned_data.get('password1')
 
             user = authenticate(username=username, password=password)
-
             user = form_filled.save()
+
+            # Create User Profile
+            UserProfile.create(user_id=user.id)
 
             regulars = Group.objects.get(name='Regulars')
             regulars.user_set.add(user)
 
             login(request, user)
-            return redirect('homepage')
+            return redirect('update_profile')
 
         else:
             return render(request, 'signup.html', {'form': form_filled})
@@ -66,27 +69,21 @@ def signout(request):
     return redirect('signin')
 
 
-def create_profile(request):
+def update_profile(request):
+    profile = request.user.userprofile
+    form = ProfileForm(request.POST or None, instance=profile)
+    context = {'form': form}
+    if form.is_valid():
+        form.save()
+        return redirect('profile')
+    return render(request, 'update_profile.html', context)
 
-    if request.method == 'POST':
-        filled_form = ProfileForm(request.POST)
 
-        if filled_form.is_valid():
-            profile = filled_form.save(commit = False)
+def profile(request):
+    user = request.user
+    profile = user.userprofile
+    context = {'profile': profile}
 
-            profile.user = request.user
-            profile.save()
+    return render(request, 'profile.html', context)
 
-            return redirect('profile')
 
-        else:
-            return render(request, 'create_profile.html', {'form': filled_form})
-
-    
-    else:
-
-        if request.user.is_authenticated:
-            form = ProfileForm()
-            return render(request, 'create_profile.html', {'form': form})
-        else:
-            return redirect('signin')

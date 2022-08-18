@@ -1,7 +1,11 @@
+from audioop import ratecv
 from select import select
+from tkinter import CASCADE
 from django.db import models
 from django.urls import reverse
 from django.core.exceptions import ValidationError
+from accounts.models import UserProfile
+
 
 class Country(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -66,3 +70,28 @@ class Film(models.Model):
     
     def get_absolute_url(self):
         return reverse('country', args=[self.id])
+
+
+
+# class Review(models.Model):
+#     rate = models.IntegerField()
+#     comment = models.CharField(max_length=500)
+#     film = models.ForeignKey(Film, on_delete=models.CASCADE, default=Film.id)
+
+#     def __str__(self) -> str:
+#         return self.rate + ' ' + self.comment
+
+
+class Review(models.Model):
+
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    film = models.ForeignKey(Film, on_delete=models.CASCADE)
+    comment = models.TextField(max_length=500)
+    rate = models.IntegerField(default=0)
+    posted_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return str(self.id)
+
+
+

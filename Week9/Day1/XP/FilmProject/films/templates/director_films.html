@@ -6,6 +6,7 @@
 
 
       <a href="{% url 'update_director' director.id %}"><button type="submit" class="btn btn-primary">Update details</button></a> 
+      <a href="{% url 'delete_director' director.id %}" class="btn btn-primary">Delete</a>
 
     <ul>
         {% for film in films %}

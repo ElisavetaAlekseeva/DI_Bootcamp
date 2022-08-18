@@ -1,8 +1,10 @@
+from email import message
+import imp
 from django.shortcuts import render, redirect
-from .forms import FilmForm, DirectorForm
-from .models import Director, Film
+from .forms import FilmForm, DirectorForm, ReviewForm
+from .models import Director, Film, Review
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-
+from django.views import generic
 
 
 context = {'films': Film.objects.all(), 'directors': Director.objects.all()}
@@ -11,8 +13,9 @@ def homepage(request):
     context = {'films': Film.objects.all(), 'directors': Director.objects.all(), 'formIn':AuthenticationForm, 'formUp': UserCreationForm}
     return render(request, 'homepage.html', context)
 
+
 def add_film(request):
-    context.update({'form': FilmForm})
+    context.update({'form': FilmForm(initial='realeased_date')})
 
     if request.method == 'POST':
         form_field = FilmForm(request.POST)
@@ -46,40 +49,6 @@ def add_director(request):
 
     return render(request, 'add_director.html', context)
 
-
-# def update_film(request, id):
-#     film = Film.objects.get(id=id)
-#     form = FilmForm(instance=film)
-#     context.update({'form': form})
-
-#     if request.method == 'POST':
-#         form_field = FilmForm(request.POST, instance=film)
-#         if form_field.is_valid():
-#             form_field.save()
-#             return redirect('homepage')
-#         else:
-#             return redirect('update_film', args=[id])
-
-#     return render(request, 'update_film.html', context)
-
-
-
-# def update_director(request, id):
-#     dir = Director.objects.get(id=id)
-#     form = DirectorForm(request.POST or None, instance=dir)
-#     context.update({'form': form})
-
-#     if request.method == 'POST':
-#         form_field = FilmForm(request.POST, instance=dir)
-#         if form_field.is_valid():
-#             form_field.save()
-#             return redirect('homepage')
-#         else:
-#             return redirect('update_director', args=[id])
-
-#     return render(request, 'update_director.html', context)
-
-
 def director_films(request, id):
     director = Director.objects.get(id=id)
     films = director.films.all()
@@ -89,13 +58,16 @@ def director_films(request, id):
 
 def about_film(request, id):
     film = Film.objects.get(id=id)
-    context = {'film':film}
+    form = ReviewForm
+    context = {'film':film, 'form': form}
+
+    if request.method == 'POST':
+        form_filled = ReviewForm(request.POST)
+        if form_filled.is_valid():
+            form_filled.save()
+            return redirect('about_film')
+            
     return render(request, 'about_film.html', context)
-
-    
-    
-
-
 
 def update_director(request, id):
     dir = Director.objects.get(id=id)
@@ -103,6 +75,7 @@ def update_director(request, id):
     context.update({'form': form})
     if form.is_valid():
         form.save()
+        # messages.add_message(reqwuest, message.SUCCESS, '')
         return redirect('homepage')
     return render(request, 'update_director.html', context)
 
@@ -115,3 +88,18 @@ def update_film(request, id):
         form.save()
         return redirect('homepage')
     return render(request, 'update_film.html', context)
+
+
+
+def delete_film(request, id):
+    film = Film.objects.filter(id=id)
+    film.delete()
+    return redirect('homepage')
+
+
+def delete_director(request, id):
+    director = Director.objects.filter(id=id)
+    director.delete()
+    return redirect('homepage')
+
+

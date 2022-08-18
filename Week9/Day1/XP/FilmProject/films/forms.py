@@ -1,7 +1,8 @@
+from dataclasses import fields
 from datetime import datetime
 from tkinter.ttk import Widget
 from django import forms
-from .models import (Director, Film)
+from .models import (Director, Film, Review)
 from datetime import date
 
 class FilmForm(forms.ModelForm):
@@ -25,3 +26,10 @@ class DirectorForm(forms.ModelForm):
                     'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter a first name'}),
                     'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter a last name'}),
         }
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = '__all__'
+
+        

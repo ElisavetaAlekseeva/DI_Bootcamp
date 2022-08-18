@@ -10,16 +10,27 @@
             <a class="nav-link active" aria-current="page" href="{% url 'homepage' %}">Home</a>
           </li>
 
-          <li class="nav-item"> 
-            <a class="nav-link active test" onclick="openWindowSignin()" aria-current="page">LogIn</a>
+          {%if user.is_authenticated%}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'profile' %}">Profile</a>
           </li>
+          {%else%}
+          <li class="nav-item"> 
+            <a class="nav-link active test" onclick="openWindowSignin()"  aria-current="page">LogIn</a>
+          </li>
+          {%endif%}
+
+          
+          {%if user.is_staff%}
 
           <li class="nav-item">
             <a class="nav-link" href="{% url 'add_film' %}">Add Film</a>
           </li>
           <li class="nav-item">
             <a id ="myBtn" class="nav-link" href="{% url 'add_director' %}" id="navbarDropdown">Add Director</a>
+          {%endif%}
           
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Directors
@@ -37,6 +48,7 @@
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+        
       </div>
     </div>
   </nav>
