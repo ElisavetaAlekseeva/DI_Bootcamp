@@ -6,7 +6,7 @@ admin.site.register(Category)
 
 
 
-@admin.register(Review)
-class ReviewAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'film', 'rate', 'posted_date']
-    readonly_fields = ['posted_date' ,]
+# @admin.register(Review)
+# class ReviewAdmin(admin.ModelAdmin):
+#     list_display = ['id', 'user', 'film', 'rate', 'posted_date']
+#     readonly_fields = ['posted_date' ,]

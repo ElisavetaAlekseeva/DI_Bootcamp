@@ -68,8 +68,7 @@ class Film(models.Model):
         out += f"\nReleased: {self.release_date}"
         return out
     
-    def get_absolute_url(self):
-        return reverse('country', args=[self.id])
+   
 
 
 
@@ -84,11 +83,11 @@ class Film(models.Model):
 
 class Review(models.Model):
 
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    film = models.ForeignKey(Film, on_delete=models.CASCADE)
-    comment = models.TextField(max_length=500)
-    rate = models.IntegerField(default=0)
-    posted_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
+    film = models.ForeignKey(Film, on_delete=models.CASCADE, null=True)
+    comment = models.TextField(max_length=500, null=True)
+    rate = models.IntegerField(default=0, null=True)
+    # posted_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return str(self.id)

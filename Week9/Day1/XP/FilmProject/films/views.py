@@ -5,6 +5,8 @@ from .forms import FilmForm, DirectorForm, ReviewForm
 from .models import Director, Film, Review
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.views import generic
+from django.db.models import Q
+from itertools import chain
 
 
 context = {'films': Film.objects.all(), 'directors': Director.objects.all()}
@@ -102,4 +104,20 @@ def delete_director(request, id):
     director.delete()
     return redirect('homepage')
 
+
+
+def director_search(request):
+    query_dict = request.GET
+    try:
+        query = query_dict.get('search')
+    except:
+        query = None
+
+    if query is not None:
+        directors = Director.objects.filter(Q(first_name__icontains = query) | Q(last_name__icontains = query))
+        films = Film.objects.filter(Q(title__icontains = query))
+
+    context = {'objects_selected': chain(directors,films)}
+
+    return render(request, 'director_search.html', context)
 

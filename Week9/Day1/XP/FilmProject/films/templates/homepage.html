@@ -21,7 +21,8 @@
             {% endfor %}</p>
               <a href="{% url 'about_film' film.id %}" class="btn btn-primary">Read More</a>
               <a href="{% url 'update_film' film.id %}" class="btn btn-primary">Update</a>
-              <a href="{% url 'delete_film' film.id %}" class="btn btn-primary">Delete</a>
+              <!-- <a href="{% url 'delete_film' film.id %}" class="btn btn-primary">Delete</a> -->
+              <button onclick="deleteFilm()" class="btn btn-primary">Delete</button>
             </div>
           </div>
        
@@ -47,7 +48,21 @@
           <button type="button" onclick="closeWindow()">Cancel</button>
       </form>
     </div>
-
 </div>
+
+
+<script>
+  function deleteFilm() {
+    alert('Delete?');
+    if (window.confirm('Really go to another page?'))
+      {
+
+      }
+      else
+      {
+            
+      }
+  }
+</script>
 
 {% endblock content%}
