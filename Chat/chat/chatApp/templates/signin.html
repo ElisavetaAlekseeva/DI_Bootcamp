@@ -1,0 +1,17 @@
+{% load static %}
+
+<div class="registration" id="signin">
+    <i class="icon fa-regular fa-message"></i>
+    <h2>Enter To Chat</h2>
+    <form class="form form-in" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Signin</button>
+    </form>
+</div>
+
+<div class="registration">
+    <button id="signup_btn" onclick="openWindowSignup()" type="button"><a href="{% url 'signup' %}">Signup</a></button>
+</div>
+
+

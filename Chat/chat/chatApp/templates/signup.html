@@ -1,0 +1,50 @@
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+    <script src="https://kit.fontawesome.com/4606228898.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="signup">
+        <div class="text">
+            <div class="header">
+                <i id="text_icon" class="fa-solid fa-message"></i>
+                <span id="logo">CHAT</span>
+                <h2>Chat can be logged in with email</h2>
+            </div>
+
+            <div class="container">
+                <i class="item icon fa-solid fa-user"></i>
+                <span class="item">Single account for VK services and partners</span>
+
+                <i class="item icon fa-solid fa-lock"></i>
+                <span class="item">Reliable protection linked to email</span>
+
+                <i class="item icon fa-solid fa-arrow-right-to-bracket"></i>
+                <span class="item">Quick entry in one click</span>
+            </div>
+        </div>
+    
+        <div class="form">
+            <i id="form_icon" class="fa-solid fa-message"></i>
+            <h1>Enter your data</h1>
+            <form id="signup_form" class="form form-up" method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <div class="buttons">
+                    <button type="submit">Signup</button>
+                    <button id="close_signup_btn" type="button"><a href="{% url 'signin' %}">Cancel</a></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
+{% endblock content%}
