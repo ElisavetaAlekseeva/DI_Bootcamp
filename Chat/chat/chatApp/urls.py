@@ -8,5 +8,4 @@ urlpatterns = [
     path('signout', signout, name='signout'),
     path("update-profile", update_profile, name="update_profile"),
     path("user-profile", profile, name="profile"),
-    path("update-profile", update_profile, name="update_profile"),
 ]

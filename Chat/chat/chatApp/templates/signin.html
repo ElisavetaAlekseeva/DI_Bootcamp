@@ -1,11 +1,13 @@
 {% load static %}
 
+
 <div class="registration" id="signin">
     <i class="icon fa-regular fa-message"></i>
     <h2>Enter To Chat</h2>
     <form class="form form-in" method="post">
         {% csrf_token %}
-        {{form.as_p}}
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
         <button type="submit">Signin</button>
     </form>
 </div>

@@ -1,42 +1,51 @@
-from contextlib import redirect_stderr
-from unicodedata import name
-from xml.dom.expatbuilder import FilterVisibilityController
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from django.contrib import messages
 from .forms import ProfileForm
 from .models import UserProfile
-
+from itertools import chain
+from django.contrib.auth import logout, login
 
 
 def signup(request):
-    context = {'form': UserCreationForm}
+
     if request.method == 'POST':
-        form_filled = UserCreationForm(request.POST)
-        if form_filled.is_valid():
-            
-            form_filled.save(commit = False)
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
 
-            username = form_filled.cleaned_data.get('username')
-            password = form_filled.cleaned_data.get('password1')
-            # Authentiacate
-            user = authenticate(username=username, password=password)
-            
-            user = form_filled.save()
+        if password == password2:
+            if User.objects.filter(username=username).exists():
+                messages.info(request, 'Your Username is taken')
+                return redirect('signup')
 
-            UserProfile.objects.create(user_id = user.id)
+            elif User.objects.filter(email=email).exists():
+                messages.info(request, 'Your Email is taken')
+                return redirect('signup')
 
-            # regulars = Group.objects.get(name='Regulars')
-            # regulars.user_set.add(user)
+            else:
+                user = User.objects.create_user(username=username, email=email, password=password)
+                user.save()
 
-            login(request, user)
-            return redirect('update_profile')
+                user_login = authenticate(username=username, password=password)
+                login(request, user_login)
+
+                user_model = User.objects.get(username=username)
+                user_profile = UserProfile.objects.create(user=user_model)
+                user_profile.save()
+                return redirect('update_profile')
 
         else:
-            return render(request, 'signup.html', {'form': form_filled})
-
-    return render(request, 'signup.html', context)
+            messages.info(request, 'Password is Uncorrect')
+            return redirect('signup')
+    
+    else: 
+        return render(request, 'signup.html')
 
 
 def signin(request):
@@ -44,14 +53,16 @@ def signin(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         user = authenticate(username=username, password=password)
+        print('-----')
+        print(user)
 
         if user is None:
-            login(request, user)
+            return redirect('signin')
         
         else:
-            return render(request, 'homepage.html', {'form': AuthenticationForm(request.POST)})
+            login(request, user)
+            return redirect ('profile')
     
     else:
         return render(request, 'homepage.html', {'form': AuthenticationForm})
@@ -64,19 +75,44 @@ def signout(request):
     return redirect('signin')
 
 
-def update_profile(request):
-    profile = request.user.userprofile
-    form = ProfileForm(request.POST or None, instance=profile)
-    context = {'form': form}
-    if form.is_valid():
-        form.save()
-        return redirect('profile')
-    return render(request, 'update_profile.html', context)
-
-
+@login_required(login_url='signin')
 def profile(request):
     user = request.user
-    profile = User.userprofile
-    context = {'profile': profile}
+    user_profile = user.userprofile
 
-    return render(request, 'profile.html', context)
+    context = {'user': user, 'user_profile': user_profile}
+    return render(request, 'profile/profile.html', context)
+
+
+@login_required(login_url='signin')
+def update_profile(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    context = {'user_profile': user_profile}
+
+    if request.method == 'POST':
+
+        if request.FILES.get('image') == None:
+            image = user_profile.image
+            hobbies = request.POST['hobbies']
+            location = request.POST['location']
+
+            user_profile.image = image
+            user_profile.hobbies = hobbies
+            user_profile.location = location
+            user_profile.save()
+
+        if request.FILES.get('image') != None:
+            image = request.FILES.get('image')
+            hobbies = request.POST['hobbies']
+            location = request.POST['location']
+
+            user_profile.image = image
+            user_profile.hobbies = hobbies
+            user_profile.location = location
+            user_profile.save()
+        
+        return redirect('update_profile')
+
+    return render(request, 'update_profile.html', context)
+        
+

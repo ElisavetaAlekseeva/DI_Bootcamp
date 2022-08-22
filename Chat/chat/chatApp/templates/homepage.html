@@ -1,7 +1,6 @@
 {% extends 'partials/base.html' %}
 {% block content %}
 {% load static %}
-
 <div class="sections">
     <div class="section image">
         <img class="tel_img" src="{% static 'images/img.jpg' %}">
@@ -9,6 +8,7 @@
 
     <div class="section login_window">
         {% include './signin.html' %}
+        {% csrf_token %}
     </div>
 </div>
 {% endblock content%}

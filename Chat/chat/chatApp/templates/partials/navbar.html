@@ -10,10 +10,17 @@
             <a class="nav-link active text-white " aria-current="page" href="#">Profile</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link active text-white " aria-current="page" href="{% url 'update_profile' %}">Update Profile</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link text-white " href="#">Friends</a>
           </li>
           <li class="navbar-nav ml-auto mb-2 mb-lg-0">
             <a class="nav-link ml-auto text-white" onclick="openWindowSignin()" href="#">Log In</a>
+          </li>
+
+          <li class="navbar-nav ml-auto mb-2 mb-lg-0">
+            <a class="nav-link ml-auto text-white" href="{% url 'signout' %}">Log Out</a>
           </li>
 
         </ul>
