@@ -18,14 +18,16 @@
     <title>Document</title>
 </head>
 <body>
-{% include './sidebar.html' %}
+    <nav>
+        {% include './sidebar.html' %}
+    </nav>
     <div id="section">
         <div class="container">
 
             <div class="item profile_item">
                 <div class="image">
-                    <!-- <img id='pr_image'src="https://images.squarespace-cdn.com/content/v1/562146dae4b018ac1df34d5f/1450121660392-KS2FGMOXB7VL1JNQ487I/person-placeholder.jpg?format=1000w" alt=""> -->
-                    <img src="{user_profile.image%}" alt="">
+                    <img id='pr_image'src="https://images.squarespace-cdn.com/content/v1/562146dae4b018ac1df34d5f/1450121660392-KS2FGMOXB7VL1JNQ487I/person-placeholder.jpg?format=1000w" alt="">
+
                 </div>
                 <div class="about">
                     <div class="head">
@@ -54,17 +56,8 @@
             </div>
          
             <div class="item friends-item">
-                <h2>friends-item</h2>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam dignissimos eaque ratione labore itaque quidem veritatis alias debitis perferendis dolorum vero maxime quam ab soluta, quod vitae officia repudiandae corrupti facilis placeat. Cum, dignissimos veniam quo totam excepturi praesentium eos.
-                </p>
-            </div>
-
-            <div class="item else-item">
-                <h2>else-item</h2>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam dignissimos eaque ratione labore itaque quidem veritatis alias debitis perferendis dolorum vero maxime quam ab soluta, quod vitae officia repudiandae corrupti facilis placeat. Cum, dignissimos veniam quo totam excepturi praesentium eos.
-                </p>
+                <h2>friends:</h2>
+                {% include './friends.html' %}
             </div>
         </div>
     </div>
@@ -72,8 +65,3 @@
 {% endblock content%}
 </body>
 </html>
-
-<!-- <h1> {{user_profile.hobbies}}</h1>
-
-                {{user_profile.user.username}}
-            </div> -->

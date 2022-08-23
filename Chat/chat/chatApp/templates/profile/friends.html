@@ -1,0 +1,23 @@
+
+<div class="friends">
+    {% for friend in friends %}
+        
+        <a href="{% url 'chat' friend.profile.id%}">
+            <div class="friend">
+                <div class="profile_image">
+
+                </div>
+
+                <div class="main">
+                    {{friend}}
+                </div>
+
+                <div class="unread">
+
+                </div>
+            </div>
+        </a> 
+        <br>
+
+    {% endfor %}
+</div>

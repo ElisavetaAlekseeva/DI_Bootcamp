@@ -10,6 +10,7 @@ from .forms import ProfileForm, ChatForm
 from .models import UserProfile, Friend, Chat
 from itertools import chain
 from django.contrib.auth import logout, login
+from django.http import JsonResponse
 
 
 def signup(request):
@@ -80,7 +81,7 @@ def signout(request):
 def profile(request):
     user = request.user
     user_profile = user.userprofile
-    friends = user.friends.all()
+    friends = user_profile.friends.all()
 
     context = {'user': user, 'user_profile': user_profile, 
                 'friends': friends}
@@ -142,4 +143,32 @@ def friends(request, pk):
                 'messages': messages}
 
     return render(request, 'profile.html', context)
-    
+
+
+def chat(request, pk):
+    friend = Friend.objects.get(profile_id=pk)
+    form = ChatForm()
+    user = request.user.userprofile
+    profile = UserProfile.objects.get(id = friend.profile.id)
+    messages = Chat.objects.all()
+
+    if request.method == 'POST':
+        form = ChatForm(request.POST)
+
+        if form.is_valid():
+            chat = form.save(commit=False)
+            chat.sender = user
+            chat.receiver = profile
+            chat.save()
+
+            return redirect('friends', pk = friend.profile.id)
+
+    context = {'friend':friend, 'form':form, 
+                'user': user, 'profile': profile, 
+                'messages': messages}
+
+    return render(request, 'profile/chat.html', context)
+
+
+def was_sent(request):
+    pass
