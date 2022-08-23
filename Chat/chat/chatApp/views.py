@@ -1,3 +1,4 @@
+from calendar import c
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
@@ -5,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib import messages
-from .forms import ProfileForm
-from .models import UserProfile
+from .forms import ProfileForm, ChatForm
+from .models import UserProfile, Friend, Chat
 from itertools import chain
 from django.contrib.auth import logout, login
 
@@ -79,8 +80,10 @@ def signout(request):
 def profile(request):
     user = request.user
     user_profile = user.userprofile
+    friends = user.friends.all()
 
-    context = {'user': user, 'user_profile': user_profile}
+    context = {'user': user, 'user_profile': user_profile, 
+                'friends': friends}
     return render(request, 'profile/profile.html', context)
 
 
@@ -116,3 +119,27 @@ def update_profile(request):
     return render(request, 'update_profile.html', context)
         
 
+def friends(request, pk):
+    friend = Friend.objects.get(profile_id=pk)
+    form = ChatForm()
+    user = request.user.profile
+    profile = UserProfile.objects.get(id = friend.profile.id)
+    messages = Chat.objects.all()
+
+    if request.method == 'POST':
+        form = ChatForm(request.POST)
+
+        if form.is_valid():
+            chat = form.save(commit=False)
+            chat.sender = user
+            chat.receiver = profile
+            chat.save()
+
+            return redirect('friends', pk = friend.profile.id)
+
+    context = {'friend':friend, 'form':form, 
+                'user': user, 'profile': profile, 
+                'messages': messages}
+
+    return render(request, 'profile.html', context)
+    
