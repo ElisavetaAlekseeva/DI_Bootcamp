@@ -1,23 +1,76 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="comtainer">
+        <div class="side-bar">
+            {% include './sidebar.html' %}
+        </div>
 
-<div class="friends">
-    {% for friend in friends %}
-        
-        <a href="{% url 'chat' friend.profile.id%}">
-            <div class="friend">
-                <div class="profile_image">
-
-                </div>
-
-                <div class="main">
-                    {{friend}}
-                </div>
-
-                <div class="unread">
-
-                </div>
+        <div class="header">
+            <div class="profile-image">
+                <img src="{{user.image.url}}" alt="">
             </div>
-        </a> 
-        <br>
+            <div class="user-name">
+                {{request.user.username}}
+            </div>
+            <div class="logo">
+                <h1>Messages</h1>
+            </div>
+        </div>
 
-    {% endfor %}
-</div>
+        <div class="friends">
+            {% for friend in friends %}
+                
+                <a href="{% url 'chat' friend.profile.id%}">
+                    <div class="friend">
+                        <div class="profile_image">
+                            <img src="{{friend.profile.image.url}}" alt="">
+                        </div>
+        
+                        <div class="friend-name">
+                            <h2>{{friend.profile.name}}</h2>
+                        </div>
+        
+                        <div class="unread">
+                            <div class="unread-messages">
+                                0
+                            </div>
+                        </div>
+                    </div>
+                </a> 
+                <br>
+        
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+
+        setInterval(getNotification, 1000)
+  
+        function getNotification(){
+            let url = "{% url 'chatNotification' %}"
+    
+            fetch(url)
+            .then(res=>res.json())
+            .then(data=>{
+            console.log(data)
+            let chatNotificationBtn = document.getElementsByClassName("unread-messages")
+            for(let i = 0; i<data.length; i++){
+                chatNotificationBtn[i].innerText = data[i]
+            }
+            })
+            .catch(error => console.log(error))
+        }
+    
+    </script>
+</body>
+</html>
+{% endblock content%}

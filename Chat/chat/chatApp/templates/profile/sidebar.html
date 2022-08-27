@@ -76,7 +76,7 @@
       <i class="fas fa-times"></i>
     </a>
     <a href="{% url 'profile' %}">Profile</a>
-    <a href="{% url 'profile' %}">Friends</a>
+    <a href="{% url 'friends' user.id %}">Friends</a>
     <a href="{% url 'signout' %}">Log Out</a>
   </div>
 </div>

@@ -11,6 +11,7 @@ from .models import UserProfile, Friend, Chat
 from itertools import chain
 from django.contrib.auth import logout, login
 from django.http import JsonResponse
+import json
 
 
 def signup(request):
@@ -81,10 +82,8 @@ def signout(request):
 def profile(request):
     user = request.user
     user_profile = user.userprofile
-    friends = user_profile.friends.all()
 
-    context = {'user': user, 'user_profile': user_profile, 
-                'friends': friends}
+    context = {'user': user, 'user_profile': user_profile}
     return render(request, 'profile/profile.html', context)
 
 
@@ -121,28 +120,13 @@ def update_profile(request):
         
 
 def friends(request, pk):
-    friend = Friend.objects.get(profile_id=pk)
-    form = ChatForm()
-    user = request.user.profile
-    profile = UserProfile.objects.get(id = friend.profile.id)
-    messages = Chat.objects.all()
+    user = request.user.userprofile
+    friends = user.friends.all()
 
-    if request.method == 'POST':
-        form = ChatForm(request.POST)
 
-        if form.is_valid():
-            chat = form.save(commit=False)
-            chat.sender = user
-            chat.receiver = profile
-            chat.save()
+    context = {'friends': friends, 'user': user}
 
-            return redirect('friends', pk = friend.profile.id)
-
-    context = {'friend':friend, 'form':form, 
-                'user': user, 'profile': profile, 
-                'messages': messages}
-
-    return render(request, 'profile.html', context)
+    return render(request, 'profile/friends.html', context)
 
 
 def chat(request, pk):
@@ -150,7 +134,9 @@ def chat(request, pk):
     form = ChatForm()
     user = request.user.userprofile
     profile = UserProfile.objects.get(id = friend.profile.id)
-    messages = Chat.objects.all()
+    chats = Chat.objects.all()
+    received_chats = Chat.objects.filter(sender=profile, receiver=user, message_seen = False)
+    received_chats.update(message_seen=True)
 
     if request.method == 'POST':
         form = ChatForm(request.POST)
@@ -161,14 +147,47 @@ def chat(request, pk):
             chat.receiver = profile
             chat.save()
 
-            return redirect('friends', pk = friend.profile.id)
+            return redirect('chat', pk = friend.profile.id)
 
-    context = {'friend':friend, 'form':form, 
-                'user': user, 'profile': profile, 
-                'messages': messages}
+    context = {'friend': friend, 'form': form, 
+                'user': user, 'profile': profile,  
+                'chats': chats, 'num': received_chats.count()}
 
     return render(request, 'profile/chat.html', context)
 
 
-def was_sent(request):
-    pass
+def sentMessage(request, pk):
+    user = request.user.userprofile
+    friend = Friend.objects.get(profile_id=pk)
+    profile = UserProfile.objects.get(id=friend.profile.id)
+    data = json.loads(request.body)
+    new_chat = data['msg']
+    new_message = Chat.objects.create(body=new_chat, sender = user,
+                                    receiver = profile, message_seen = False)
+
+    return JsonResponse(new_message.body, safe=False )
+
+
+def receivedMessage(request, pk):
+    user = request.user.userprofile
+    friend = Friend.objects.get(profile_id=pk)
+    profile = UserProfile.objects.get(id=friend.profile.id)
+    chats = Chat.objects.filter(sender=profile, receiver=user)
+    arr = []
+
+    for chat in chats:
+        arr.append(chat.body)
+
+    return JsonResponse(arr, safe=False )
+
+
+def chatNotification(request):
+    user = request.user.userprofile
+    friends = user.friends.all()
+    arr = []
+
+    for friend in friends:
+        chats = Chat.objects.filter(sender__id=friend.profile.id, receiver=user, message_seen=False)
+        arr.append(chats.count())
+
+    return JsonResponse(arr, safe=False)
