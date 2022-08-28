@@ -160,9 +160,7 @@ def sentMessage(request, pk):
     user = request.user.userprofile
     friend = Friend.objects.get(profile_id=pk)
     profile = UserProfile.objects.get(id=friend.profile.id)
-    data = json.loads(request.body)
-    new_chat = data['msg']
-    new_message = Chat.objects.create(body=new_chat, sender = user,
+    new_message = Chat.objects.create(sender = user,
                                     receiver = profile, message_seen = False)
 
     return JsonResponse(new_message.body, safe=False )
@@ -172,13 +170,29 @@ def receivedMessage(request, pk):
     user = request.user.userprofile
     friend = Friend.objects.get(profile_id=pk)
     profile = UserProfile.objects.get(id=friend.profile.id)
-    chats = Chat.objects.filter(sender=profile, receiver=user)
+    messages = Chat.objects.filter(sender=profile, receiver=user)
     arr = []
 
-    for chat in chats:
-        arr.append(chat.body)
+    for message in messages:
+        arr.append(message.body)
 
-    return JsonResponse(arr, safe=False )
+    return JsonResponse(arr, safe=False)
+
+
+def not_seen(request, pk):
+    user = request.user.userprofile
+    friend = Friend.objects.get(profile_id=pk)
+    profile = UserProfile.objects.get(id=friend.profile.id)
+    messages = Chat.objects.filter(sender=profile, receiver=user, message_seen=False)
+
+    message_list = [{
+        "sender": message.sender.name,
+        "message": message.body,
+
+    } for message in messages]
+    messages.update(message_seen=True)
+    
+    return JsonResponse(message_list, safe=False)
 
 
 def chatNotification(request):

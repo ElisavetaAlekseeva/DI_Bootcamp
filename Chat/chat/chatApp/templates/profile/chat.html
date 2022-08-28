@@ -30,21 +30,24 @@
             {% for message in chats %}
             {% if message.sender == user and message.receiver == profile %}
 
-            <div class="chat-box-sent">
-                {{message}}
+            <div class="message">
+                <div class="sent-by" style="color: red;">{{ message.sender.name }}</div>
+                <div class="text">{{message}}</div>
             </div>
 
             {% elif message.sender == profile and message.receiver == user %}
 
-            <div class="chat-box-received">
-                {{message}}
+            <div class="message">
+                <div class="sent-by" style="color: green;">{{ message.sender.name }}</div>
+                <div class="text">{{message}}</div>
+
             </div>
 
             {% endif %}
             {% endfor %}
 
-            <div class="chat-box-sent" id ="chat-box-sent" style="display: none"></div>
         </div>
+
 
         <form action="" id="myform" method="POST">
             {% csrf_token %}
@@ -55,106 +58,39 @@
         </form>
     </div>
 
+
 <script>
 
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
+    function create_message(message){
+        let chatWindow = document.getElementById('chat-window')
+        let div = document.createElement('div')
+        div.classList.add('message')
+        console.log(message);
+        console.log(message.sender);
 
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+
+        div.innerHTML = `<div class="sent-by" style="color: green;">${ message.sender }</div>
+                <div class="text">${message.message}</div>`
+        
+        chatWindow.appendChild(div)
+        div.scrollIntoView()
+    }
+
+    function received_messages() {
+        fetch("{% url 'not_seen' friend.profile.id %}")
+            .then(e => e.json())
+            .then(messages => {
+                console.log(messages)
+                console.log(messages)
+                console.log(messages)
+
+                for (message in messages) {
+                    create_message(messages[message]);
                 }
-            }
-        } 
-        return cookieValue;
+            })
     }
-
-    const csrftoken = getCookie('csrftoken');
-    let form = document.getElementById("myform")
-    form.addEventListener("submit", sendChat)
-
-    function sendChat(e){
-        e.preventDefault()
-        let chatMessage= document.getElementById("id_body").value
-
-        const data = { msg: chatMessage };
-        
-        let url = "{% url 'sent_message' friend.profile.id %}"
-
-    fetch(url, {
-        method: 'POST', 
-        headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrftoken
-        },
-        body: JSON.stringify(data),
-    })
-
-    .then(response => {
-        console.log(response);
-        response.json()})
-
-    .then(data => {
-        console.log('Success:', data);
-        let chat_body = document.getElementById('chat-window')
-        let chatMessageBox = document.createElement("div")
-        chatMessageBox.classList.add("chat-box-sent")
-        chatMessageBox.innerText = data
-        chat_body.append(chatMessageBox)
-        document.getElementById("id_body").value=""
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-    }
-
-setInterval(receiveMessages, 2000);
-
-let counter = {{num}}
-function receiveMessages(){
-
-    let url = "{% url 'received_message' friend.profile.id %}"
-
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-        console.log('Success:', data);
-
-        if(data.length == 0){}
-
-        else{
-
-            let lastMsg = data[data.length-1]
-
-            if(counter == data.length){
-                console.log("there is no new chat")
-            }
-
-            else{
-                let chat_body = document.getElementById('chat-window')
-                let chatMessageBox = document.createElement("div")
-                
-                chatMessageBox.classList.add("chat-box-received")
-                chatMessageBox.innerText = lastMsg
-                chat_body.append(chatMessageBox)
-                document.getElementById("id_body").value=""
-            }
-
-        }
-        
-        counter = data.length
-
-        })
-        .catch((error) => {
-        console.error('Error:', error);
-        });
-}
-
-
+    
+    setInterval(received_messages, 800)
 
 </script>
 
