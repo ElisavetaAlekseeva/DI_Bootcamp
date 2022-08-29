@@ -1,76 +1,73 @@
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-    <div class="comtainer">
-        <div class="side-bar">
-            {% include './sidebar.html' %}
-        </div>
 
-        <div class="header">
-            <div class="profile-image">
-                <img src="{{user.image.url}}" alt="">
-            </div>
-            <div class="user-name">
-                {{request.user.username}}
-            </div>
-            <div class="logo">
-                <h1>Messages</h1>
-            </div>
-        </div>
 
-        <div class="friends">
-            {% for friend in friends %}
-                
-                <a href="{% url 'chat' friend.profile.id%}">
-                    <div class="friend">
-                        <div class="profile_image">
-                            <img src="{{friend.profile.image.url}}" alt="">
-                        </div>
-        
-                        <div class="friend-name">
-                            <h2>{{friend.profile.name}}</h2>
-                        </div>
-        
-                        <div class="unread">
-                            <div class="unread-messages">
-                                0
-                            </div>
-                        </div>
-                    </div>
-                </a> 
-                <br>
-        
-            {% endfor %}
-        </div>
-    </div>
-    <script>
+{% if user == current_user %}
+    user: {{request.user.username}} <br>
 
-        setInterval(getNotification, 1000)
-  
-        function getNotification(){
-            let url = "{% url 'chatNotification' %}"
+    all users: <br>
+    {% for user in users %}
+        {% if user != current_user %}
+
+            <a href="{%url 'profile' user.userprofile.id%}">{{user}}</a> <br>
     
-            fetch(url)
-            .then(res=>res.json())
-            .then(data=>{
-            console.log(data)
-            let chatNotificationBtn = document.getElementsByClassName("unread-messages")
-            for(let i = 0; i<data.length; i++){
-                chatNotificationBtn[i].innerText = data[i]
-            }
-            })
-            .catch(error => console.log(error))
-        }
+        {% endif %}
+    {% endfor %}
+    <br> <br> <br> <br> <br>
+
+    my friends: <br>
+    {% for friend in friends %}
+
+            {{friend}} <br>
+        
+        {% endfor %}
+
+
+
+        {% for request in rec_friend_requests %}
+        <h5>From: {{ request.sender }}</h5>
+        <a href="{% url 'accept_friend_request' request.pk %}">
+          <button type="button" class="btn btn-info btn-sm btn-block mb-2">
+          Accept Friend Request
+          </button>
+        </a>
+        <a href="{% url 'decline_friend_request' request.pk %}">
+          <button type="button" class="btn btn-info btn-sm btn-block mb-2">
+          Decline Friend Request
+          </button>
+        </a>
+        <hr>
+        {% endfor %}
     
-    </script>
-</body>
-</html>
+        <div>Requests Sent</div>
+      <div>
+          {% for sent in sent_friend_requests %}
+        <h5>Send to: {{ sent.receiver }}</h5>
+        <a href="{% url 'delete_friend_request' sent.receiver.id %}">
+          <button type="button" class="btn btn-info btn-sm btn-block mb-2">
+          Cancel Friend Request
+          </button>
+        </a>
+        {% endfor %}
+
+{%else%}
+
+    {{user}}`s friends:
+
+    {% for friend in friends %}
+
+    {{friend.userprofile.name}}
+    <a href="{% url 'profile' friend.id %}">
+        <button type="button" class="btn btn-info btn-sm btn-block mb-2">
+        View Profile
+        </button>
+      </a>
+
+      <a href="{% url 'delete_friend' friend.id %}">
+        <button type="button" class="btn btn-info btn-sm btn-block mb-2">
+        Remove from Friends
+        </button>
+      </a>
+    {% endfor %}
+
+{% endif %}
 {% endblock content%}

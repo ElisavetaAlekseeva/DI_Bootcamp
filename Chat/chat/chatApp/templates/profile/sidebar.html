@@ -75,11 +75,11 @@
     <a href="#" class="close" onClick="closeSlideMenu()">
       <i class="fas fa-times"></i>
     </a>
-    <a href="{% url 'profile' %}">Profile</a>
-    <a href="{% url 'friends' user.id %}">Friends</a>
+    <a href="{% url 'profile' current_user.id%}">Profile</a>
+    <a href="{% url 'friends' current_user.id %}">Friends</a>
     <a href="{% url 'signout' %}">Log Out</a>
   </div>
-</div>
+</div>	
 </div>
 
 <script>

@@ -20,6 +20,9 @@
     <div class="side-bar">
         {% include './sidebar.html' %}
     </div>
+
+    {% if user != current_user %}
+
     <div id="section">
         <div class="container">
 
@@ -27,7 +30,6 @@
                 <div class="image">
                     <img id='pr_image'src="{{user_profile.image.url}}" alt="">
                 </div>
-
                 <div class="about">
                     <div class="head">
                         <div class="profile">
@@ -52,13 +54,77 @@
                         </div>
                         <div class="item friends-item">
                             <h1><a href="{%url 'friends' user.id%}">FRIENDS</a></h1>
-                         </div>
+                        </div>
+
+                        <div>
+                            {% if user != current_user and user not in current_user.userprofile.friends.all%}
+                                <div>
+                                <a href="{% url 'send_friend_request' user.id %}">
+                                    <button type="button" class="btn btn-success btn-lg btn-block mb-2">
+                                    Send Friend Request
+                                    </button>
+                                </a>
+                                </div>
+                            {% endif %}
+                
+                            {% if sent_friend_request %}
+                                <div>
+                                    <a href="{% url 'delete_friend_request' user.id %}">
+                                        <button type="button" class="btn btn-danger btn-lg btn-block mb-2">
+                                        Cancel Friend Request
+                                        </button>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+
                     </div>
                 </div>
             </div>
-         
+        
         </div>
     </div>
+    {% else %}
+        <div id="section">
+            <div class="container">
+
+                <div class="item profile_item">
+                    <div class="image">
+                        <img id='pr_image'src="{{user_profile.image.url}}" alt="">
+                    </div>
+                    <div class="about">
+                        <div class="head">
+                            <div class="profile">
+                                <h3>My Profile</h3>
+                            </div>
+                            <div class="name">
+                                <h5>{{current_user_profile.user.username}}</h5>
+                            </div>
+                        </div>
+                        <div class="main">
+                            <div class="users_data">
+                                <div class="location">
+                                    {{current_user_profile.location}}
+                                </div>
+
+                                <div class="email">
+                                    {{current_user.email}}
+                                </div>
+                            </div>
+                            <div class="hobby">
+                                {{current_user_profile.hobbies}}
+                            </div>
+                            <div class="item friends-item">
+                                <h1><a href="{%url 'friends' current_user.id%}">FRIENDS</a></h1>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock content%}
 </body>

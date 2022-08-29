@@ -21,7 +21,7 @@
 
             <div class="container m-auto"> 
 
-                <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href="{%url 'profile'%}">Home</a> / Account Setting for <b>{{user.username}}</b> </h1>
+                <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href="{%url 'profile' current_user_profile.id%}">Home</a> / Account Setting for <b>{{user.username}}</b> </h1>
                 <br>
                 <hr>
                 <div class="grid lg:grid-cols-3 mt-12 gap-8">
@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-span-2">
                                 <label for="about">hobbies</label>  
-                                <textarea id="about" name="hobbies" rows="3"  class="shadow-none bg-gray-100">{{user_profile.bio}}</textarea>
+                                <textarea id="about" name="hobbies" rows="3"  class="shadow-none bg-gray-100">{{user_profile.hobbies}}</textarea>
                             </div> 
                             <div class="col-span-2">
                                 <label for=""> Location</label>
@@ -54,7 +54,7 @@
     
                        <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
                            <button class="p-2 px-4 rounded bg-gray-50 text-red-500"> <a href="/">Cancel</a> </button>
-                           <button type="submit" class="button bg-blue-700"><a href="{% url 'profile' %}">Save</a></button>
+                           <button type="submit" class="button bg-blue-700"><a href="{% url 'profile' current_user_profile.id%}">Save</a></button>
                        </div>
                     </form>
     

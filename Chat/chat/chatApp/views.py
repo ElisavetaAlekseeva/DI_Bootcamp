@@ -1,13 +1,16 @@
 from calendar import c
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from urllib import response
+from venv import create
+from wsgiref.util import request_uri
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib import messages
 from .forms import ProfileForm, ChatForm
-from .models import UserProfile, Friend, Chat
+from .models import UserProfile, Chat, FriendRequest, Friend
 from itertools import chain
 from django.contrib.auth import logout, login
 from django.http import JsonResponse
@@ -52,7 +55,7 @@ def signup(request):
 
 
 def signin(request):
-
+    user = request.user
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -65,7 +68,7 @@ def signin(request):
         
         else:
             login(request, user)
-            return redirect ('profile')
+            return redirect ('profile', user.id )
     
     else:
         return render(request, 'homepage.html', {'form': AuthenticationForm})
@@ -79,57 +82,65 @@ def signout(request):
 
 
 @login_required(login_url='signin')
-def profile(request):
-    user = request.user
-    user_profile = user.userprofile
+def profile(request, pk):
 
-    context = {'user': user, 'user_profile': user_profile}
+    user = User.objects.get(id=pk)
+    user_profile = UserProfile.objects.get(id=pk)
+    current_user = request.user
+    current_user_profile = current_user.userprofile
+    sent_friend_request = FriendRequest.objects.filter(sender=current_user.id, receiver=user_profile)
+
+    context = {'user': user, 'user_profile': user,
+                'current_user':current_user, 'current_user_profile':current_user_profile,
+                'sent_friend_request': sent_friend_request}
     return render(request, 'profile/profile.html', context)
 
 
 @login_required(login_url='signin')
 def update_profile(request):
-    user_profile = UserProfile.objects.get(user=request.user)
-    context = {'user_profile': user_profile}
+    current_user = request.user
+    current_user_profile = current_user.userprofile
+    context = {'current_user_profile': current_user_profile}
 
     if request.method == 'POST':
 
         if request.FILES.get('image') == None:
-            image = user_profile.image
+            image = current_user_profile.image
             hobbies = request.POST['hobbies']
             location = request.POST['location']
 
-            user_profile.image = image
-            user_profile.hobbies = hobbies
-            user_profile.location = location
-            user_profile.save()
+            current_user_profile.image = image
+            current_user_profile.hobbies = hobbies
+            current_user_profile.location = location
+            current_user_profile.save()
 
         if request.FILES.get('image') != None:
             image = request.FILES.get('image')
             hobbies = request.POST['hobbies']
             location = request.POST['location']
 
-            user_profile.image = image
-            user_profile.hobbies = hobbies
-            user_profile.location = location
-            user_profile.save()
+            current_user_profile.image = image
+            current_user_profile.hobbies = hobbies
+            current_user_profile.location = location
+            current_user_profile.save()
         
         return redirect('update_profile')
 
     return render(request, 'update_profile.html', context)
         
 
-def friends(request, pk):
+def chats(request, pk):
     user = request.user.userprofile
     friends = user.friends.all()
 
 
     context = {'friends': friends, 'user': user}
 
-    return render(request, 'profile/friends.html', context)
+    return render(request, 'profile/chats.html', context)
 
 
 def chat(request, pk):
+    current_user = request.user
     friend = Friend.objects.get(profile_id=pk)
     form = ChatForm()
     user = request.user.userprofile
@@ -151,7 +162,8 @@ def chat(request, pk):
 
     context = {'friend': friend, 'form': form, 
                 'user': user, 'profile': profile,  
-                'chats': chats, 'num': received_chats.count()}
+                'chats': chats, 'num': received_chats.count(),
+                'current_user': current_user}
 
     return render(request, 'profile/chat.html', context)
 
@@ -205,3 +217,94 @@ def chatNotification(request):
         arr.append(chats.count())
 
     return JsonResponse(arr, safe=False)
+
+
+
+@login_required(login_url='signin')
+def friends(request, pk):
+    current_user = request.user
+    user = User.objects.get(id=pk)
+    user_profile = UserProfile.objects.get(id=pk)
+    friends = user_profile.friends.all()
+    users = User.objects.all()
+
+    sent_friend_requests = FriendRequest.objects.filter(sender=current_user.id)
+    rec_friend_requests = FriendRequest.objects.filter(receiver=current_user.id)
+
+    context = {'user':user, 'current_user':current_user, 'friends':friends, 
+                'users':users, 'sent_friend_requests': sent_friend_requests,
+                'rec_friend_requests': rec_friend_requests, 'user_profile': user_profile}
+
+    return render(request, 'profile/friends.html', context)
+
+
+def send_friend_request(request, pk):
+
+    sender = request.user
+    receiver = User.objects.get(id=pk)
+
+    friend_request, created = FriendRequest.objects.get_or_create(sender=sender.id,receiver=receiver.id)
+
+    if created:
+        return redirect('profile', pk=pk)
+    else:
+        return redirect('profile', pk=pk)
+
+
+def delete_friend_request(request, pk):
+
+    sender = request.user
+    receiver = User.objects.get(id=pk)
+
+    friend_request = FriendRequest.objects.get(sender=sender.id,receiver=receiver.id)
+
+    if friend_request.sender == sender:
+
+        friend_request.delete()
+        messages.success(request, 'Friend request deleted')
+
+        return redirect('profile', pk=pk)
+    
+    return redirect('profile', pk=pk)
+
+
+
+def accept_friend_request(request, pk):
+
+    friend_request = FriendRequest.objects.get(pk=pk)
+
+    if friend_request.receiver == request.user:
+        friend_request.receiver.friends.add(friend_request.sender)
+        friend_request.sender.friends.add(friend_request.receiver)
+
+        friend_request.delete()
+        
+        return redirect('friends')
+
+
+
+
+def decline_friend_request(request, pk):
+
+    receiver = request.user
+
+    friend_request = FriendRequest.objects.get(pk=pk)
+
+    if friend_request.receiver == receiver:
+        friend_request.delete()
+
+        return redirect ('friends', pk=pk)
+    
+    else:
+        accept_friend_request()
+
+
+def delete_friend(request, pk):
+
+    user = request.user
+    friend = User.objects.get(id=pk)
+
+    user.friends.remove(friend)
+    friend.friends.remove(user)
+
+    return redirect ('friends', pk=pk)
