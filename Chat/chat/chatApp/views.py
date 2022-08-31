@@ -139,7 +139,6 @@ def chats(request, pk):
     user = request.user.userprofile
     friends = user.friends.all()
 
-
     context = {'friends': friends, 'user': user}
 
     return render(request, 'profile/chats.html', context)
@@ -147,10 +146,11 @@ def chats(request, pk):
 
 def chat(request, pk):
     current_user = request.user
-    friend = Friend.objects.get(profile_id=pk)
+    # friend = Friend.objects.get(profile_id=pk)
+    friend = get_object_or_404(UserProfile, pk=pk)
     form = ChatForm()
     user = request.user.userprofile
-    profile = UserProfile.objects.get(id = friend.profile.id)
+    profile = UserProfile.objects.get(id = friend.id)
     chats = Chat.objects.all()
     received_chats = Chat.objects.filter(sender=profile, receiver=user, message_seen = False)
     received_chats.update(message_seen=True)
@@ -164,7 +164,7 @@ def chat(request, pk):
             chat.receiver = profile
             chat.save()
 
-            return redirect('chat', pk = friend.profile.id)
+            return redirect('chat', pk = friend.id)
 
     context = {'friend': friend, 'form': form, 
                 'user': user, 'profile': profile,  
@@ -176,8 +176,8 @@ def chat(request, pk):
 
 def sentMessage(request, pk):
     user = request.user.userprofile
-    friend = Friend.objects.get(profile_id=pk)
-    profile = UserProfile.objects.get(id=friend.profile.id)
+    friend = get_object_or_404(UserProfile, pk=pk)
+    profile = UserProfile.objects.get(id=friend.id)
     new_message = Chat.objects.create(sender = user,
                                     receiver = profile, message_seen = False)
 
@@ -186,8 +186,8 @@ def sentMessage(request, pk):
 
 def receivedMessage(request, pk):
     user = request.user.userprofile
-    friend = Friend.objects.get(profile_id=pk)
-    profile = UserProfile.objects.get(id=friend.profile.id)
+    friend = get_object_or_404(UserProfile, pk=pk)
+    profile = UserProfile.objects.get(id=friend.id)
     messages = Chat.objects.filter(sender=profile, receiver=user)
     arr = []
 
@@ -199,8 +199,8 @@ def receivedMessage(request, pk):
 
 def not_seen(request, pk):
     user = request.user.userprofile
-    friend = Friend.objects.get(profile_id=pk)
-    profile = UserProfile.objects.get(id=friend.profile.id)
+    friend = get_object_or_404(UserProfile, pk=pk)
+    profile = UserProfile.objects.get(id=friend.id)
     messages = Chat.objects.filter(sender=profile, receiver=user, message_seen=False)
 
     message_list = [{
@@ -219,11 +219,10 @@ def chatNotification(request):
     arr = []
 
     for friend in friends:
-        chats = Chat.objects.filter(sender__id=friend.profile.id, receiver=user, message_seen=False)
+        chats = Chat.objects.filter(sender__id=friend.id, receiver=user, message_seen=False)
         arr.append(chats.count())
 
     return JsonResponse(arr, safe=False)
-
 
 
 
@@ -252,6 +251,7 @@ def friends(request, pk):
                 'users':users, 'sent_friend_requests': sent_friend_requests,
                 'rec_friend_requests': rec_friend_requests, 'user_profile': user_profile,
                 'my_friends':my_friends, 'current_user_friends': current_user_friends}
+
 
     return render(request, 'profile/friends.html', context)
 
@@ -300,9 +300,6 @@ def accept_friend_request(request, pk):
     if friend_request.receiver == request.user.userprofile:
         friend_request.receiver.friends.add(friend_request.sender)
         friend_request.sender.friends.add(friend_request.receiver)
-
-        print(friend_request.receiver.id)
-        print(friend_request.sender.id)
 
         friend_request.delete()
         

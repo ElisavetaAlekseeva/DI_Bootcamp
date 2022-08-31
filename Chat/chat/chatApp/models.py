@@ -12,10 +12,10 @@ class UserProfile(models.Model):
     hobbies = models.CharField(max_length=200, null=True)
     location = models.CharField(max_length=100, blank=True)
     friends = models.ManyToManyField('UserProfile', related_name='users_friends', default='')
+    user_friend = models.ManyToManyField('Friend', related_name='user_friend', default='')
 
     def __str__(self) -> str:
         return self.name
-
 
 class Friend(models.Model):
     profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
@@ -30,7 +30,6 @@ class FriendRequest(models.Model):
 
     def __str__(self):
         return "From {}, to {}".format(self.sender.username, self.receiver.username)
-
 
 class Chat(models.Model):
     body = models.TextField()

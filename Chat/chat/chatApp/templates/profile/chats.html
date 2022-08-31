@@ -11,7 +11,7 @@
     
     <div class="comtainer">
         <div class="side-bar">
-            {% include './sidebar.html' %}
+
         </div>
 
         <div class="header">
@@ -29,14 +29,14 @@
         <div class="friends">
             {% for friend in friends %}
                 
-                <a href="{% url 'chat' friend.profile.id%}">
+                <a href="{% url 'chat' friend.id %}">
                     <div class="friend">
                         <div class="profile_image">
-                            <img src="{{friend.profile.image.url}}" alt="">
+                            <img src="{{friend.image.url}}" alt="">
                         </div>
         
                         <div class="friend-name">
-                            <h2>{{friend.profile.name}}</h2>
+                            <h2>{{friend.name}}</h2>
                         </div>
         
                         <div class="unread">

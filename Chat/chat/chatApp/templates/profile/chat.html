@@ -77,7 +77,7 @@
     }
 
     function received_messages() {
-        fetch("{% url 'not_seen' friend.profile.id %}")
+        fetch("{% url 'not_seen' friend.id %}")
             .then(e => e.json())
             .then(messages => {
                 console.log(messages)

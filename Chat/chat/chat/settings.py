@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'chat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'chatapp',
+        'NAME': 'chat',
         'USER':'postgres',
         'PASSWORD': 'pg2022Lisa',
         'HOST': 'localhost',
