@@ -41,7 +41,6 @@
                 <input type="password" name="password" placeholder="Password">
                 <input type="password" name="password2" placeholder="Confirm Password">
                 <div class="buttons">
-                    {% csrf_token %}
                     <button type="submit">Signup</button>
                     <button id="close_signup_btn" type="button"><a href="{% url 'signin' %}">Cancel</a></button>
                 </div>

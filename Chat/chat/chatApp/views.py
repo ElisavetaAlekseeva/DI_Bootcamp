@@ -42,7 +42,7 @@ def signup(request):
                 login(request, user_login)
 
                 user_model = User.objects.get(username=username)
-                user_profile = UserProfile.objects.create(user=user_model)
+                user_profile = UserProfile.objects.create(user_id=user_model.id)
                 user_profile.save()
                 return redirect('update_profile')
 
@@ -60,8 +60,6 @@ def signin(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
-        print('-----')
-        print(user)
 
         if user is None:
             return redirect('signin')
@@ -88,11 +86,12 @@ def profile(request, pk):
     user_profile = UserProfile.objects.get(id=pk)
     current_user = request.user
     current_user_profile = current_user.userprofile
-    sent_friend_request = FriendRequest.objects.filter(sender=current_user.id, receiver=user_profile)
+    sent_friend_request = FriendRequest.objects.filter(sender=current_user_profile, receiver=user_profile)
+    friends = current_user_profile.friends.all()
 
     context = {'user': user, 'user_profile': user,
                 'current_user':current_user, 'current_user_profile':current_user_profile,
-                'sent_friend_request': sent_friend_request}
+                'sent_friend_request': sent_friend_request, 'friends': friends}
     return render(request, 'profile/profile.html', context)
 
 
@@ -100,34 +99,41 @@ def profile(request, pk):
 def update_profile(request):
     current_user = request.user
     current_user_profile = current_user.userprofile
-    context = {'current_user_profile': current_user_profile}
+    print(current_user_profile)
+    form = ProfileForm(instance=current_user_profile)
+    context = {'current_user_profile': current_user_profile, 'form': form}
 
     if request.method == 'POST':
 
-        if request.FILES.get('image') == None:
-            image = current_user_profile.image
-            hobbies = request.POST['hobbies']
-            location = request.POST['location']
+        form = ProfileForm(request.POST, instance=current_user_profile)
 
-            current_user_profile.image = image
-            current_user_profile.hobbies = hobbies
-            current_user_profile.location = location
-            current_user_profile.save()
-
-        if request.FILES.get('image') != None:
-            image = request.FILES.get('image')
-            hobbies = request.POST['hobbies']
-            location = request.POST['location']
-
-            current_user_profile.image = image
-            current_user_profile.hobbies = hobbies
-            current_user_profile.location = location
-            current_user_profile.save()
+        if form.is_valid():
         
-        return redirect('update_profile')
+            form.save()
+
+            if request.FILES.get('image') == None:
+                image = current_user_profile.image
+                hobbies = request.POST['hobbies']
+                location = request.POST['location']
+
+                current_user_profile.image = image
+                current_user_profile.hobbies = hobbies
+                current_user_profile.location = location
+                current_user_profile.save()
+
+            if request.FILES.get('image') != None:
+                image = request.FILES.get('image')
+                hobbies = request.POST['hobbies']
+                location = request.POST['location']
+
+                current_user_profile.image = image
+                current_user_profile.hobbies = hobbies
+                current_user_profile.location = location
+                current_user_profile.save()
+        
+        return redirect('profile', current_user.id)
 
     return render(request, 'update_profile.html', context)
-        
 
 def chats(request, pk):
     user = request.user.userprofile
@@ -220,20 +226,29 @@ def chatNotification(request):
 
 
 
-@login_required(login_url='signin')
+
 def friends(request, pk):
     current_user = request.user
+    current_user_profile = current_user.userprofile
     user = User.objects.get(id=pk)
-    user_profile = UserProfile.objects.get(id=pk)
+    print(pk)
+    user_profile = UserProfile.objects.filter(id=pk)[0]
+    for friend in user_profile.users_friends.all():
+        id = friend.id 
+        print('here', user.userprofile.id)
+
     friends = user_profile.friends.all()
+    my_friends = current_user_profile.friends.all()
     users = User.objects.all()
 
-    sent_friend_requests = FriendRequest.objects.filter(sender=current_user.id)
-    rec_friend_requests = FriendRequest.objects.filter(receiver=current_user.id)
+
+    sent_friend_requests = FriendRequest.objects.filter(sender=current_user_profile)
+    rec_friend_requests = FriendRequest.objects.filter(receiver=current_user_profile)
 
     context = {'user':user, 'current_user':current_user, 'friends':friends, 
                 'users':users, 'sent_friend_requests': sent_friend_requests,
-                'rec_friend_requests': rec_friend_requests, 'user_profile': user_profile}
+                'rec_friend_requests': rec_friend_requests, 'user_profile': user_profile,
+                'my_friends':my_friends}
 
     return render(request, 'profile/friends.html', context)
 
@@ -241,9 +256,11 @@ def friends(request, pk):
 def send_friend_request(request, pk):
 
     sender = request.user
+    sender_pr = sender.userprofile
     receiver = User.objects.get(id=pk)
+    receiver_pr = receiver.userprofile
 
-    friend_request, created = FriendRequest.objects.get_or_create(sender=sender.id,receiver=receiver.id)
+    friend_request, created = FriendRequest.objects.get_or_create(sender=sender_pr,receiver=receiver_pr)
 
     if created:
         return redirect('profile', pk=pk)
@@ -255,10 +272,12 @@ def delete_friend_request(request, pk):
 
     sender = request.user
     receiver = User.objects.get(id=pk)
+    sender_pr = sender.userprofile
+    receiver_pr = receiver.userprofile
 
-    friend_request = FriendRequest.objects.get(sender=sender.id,receiver=receiver.id)
+    friend_request = FriendRequest.objects.get(sender=sender_pr,receiver=receiver_pr)
 
-    if friend_request.sender == sender:
+    if friend_request.sender == sender_pr:
 
         friend_request.delete()
         messages.success(request, 'Friend request deleted')
@@ -272,21 +291,22 @@ def delete_friend_request(request, pk):
 def accept_friend_request(request, pk):
 
     friend_request = FriendRequest.objects.get(pk=pk)
+    receiver_id = friend_request.receiver.id
 
-    if friend_request.receiver == request.user:
+    if friend_request.receiver == request.user.userprofile:
         friend_request.receiver.friends.add(friend_request.sender)
         friend_request.sender.friends.add(friend_request.receiver)
 
         friend_request.delete()
         
-        return redirect('friends')
+        return redirect ('friends', pk=receiver_id)
 
 
 
 
 def decline_friend_request(request, pk):
 
-    receiver = request.user
+    receiver = request.user.userprofile
 
     friend_request = FriendRequest.objects.get(pk=pk)
 
@@ -301,8 +321,9 @@ def decline_friend_request(request, pk):
 
 def delete_friend(request, pk):
 
-    user = request.user
-    friend = User.objects.get(id=pk)
+    user = request.user.userprofile
+    user2 = User.objects.get(id=pk)
+    friend = user2.userprofile
 
     user.friends.remove(friend)
     friend.friends.remove(user)
