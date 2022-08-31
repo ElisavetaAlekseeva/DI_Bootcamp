@@ -1,7 +1,6 @@
 {% block content %}
 
-{{user_profile.users_friends.all}}
-------- <br>
+
 {% if user == current_user %}
     user: {{request.user.username}} <br>
 
@@ -9,17 +8,28 @@
     {% for user in users %}
         {% if user != current_user %}
 
-            <a href="{%url 'profile' user.userprofile.id%}">{{user}}</a> <br>
+            <a href="{%url 'profile' user.id %}">{{user}}</a> <br>
     
         {% endif %}
     {% endfor %}
     <br> <br> <br> <br> <br>
 
     my friends: <br>
-    {% for friend in user_profile.users_friends.all %}
+    {% for friend in current_user_friends %}
 
-        {{friend.image}} <br>
-        
+        {{friend.name}} 
+        <a href="{% url 'profile' friend.id %}">
+            <button type="button" class="btn btn-info btn-sm btn-block mb-2">
+            View Profile
+            </button>
+          </a>
+    
+          <a href="{% url 'delete_friend' friend.id %}">
+            <button type="button" class="btn btn-info btn-sm btn-block mb-2">
+            Remove from Friends
+            </button>
+          </a>
+        <br>
     {% endfor %}
 
 
@@ -51,22 +61,17 @@
 
 {%else%}
 
-    {{user}}`s friends:
+    {{user}}`s friends: <br>
 
     {% for friend in friends %}
 
-    {{friend.userprofile.name}}
-    <a href="{% url 'profile' friend.id %}">
-        <button type="button" class="btn btn-info btn-sm btn-block mb-2">
-        View Profile
-        </button>
-      </a>
-
-      <a href="{% url 'delete_friend' friend.id %}">
-        <button type="button" class="btn btn-info btn-sm btn-block mb-2">
-        Remove from Friends
-        </button>
-      </a>
+        {{friend.name}}
+        <a href="{% url 'profile' friend.id %}">
+            <button type="button" class="btn btn-info btn-sm btn-block mb-2">
+            View Profile
+            </button>
+          </a>
+    <br>
     {% endfor %}
 
 {% endif %}

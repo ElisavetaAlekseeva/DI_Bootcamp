@@ -83,13 +83,13 @@ def signout(request):
 def profile(request, pk):
 
     user = User.objects.get(id=pk)
-    user_profile = UserProfile.objects.get(id=pk)
+    user_profile = UserProfile.objects.get(user=user)
     current_user = request.user
     current_user_profile = current_user.userprofile
     sent_friend_request = FriendRequest.objects.filter(sender=current_user_profile, receiver=user_profile)
     friends = current_user_profile.friends.all()
 
-    context = {'user': user, 'user_profile': user,
+    context = {'user': user, 'user_profile': user_profile,
                 'current_user':current_user, 'current_user_profile':current_user_profile,
                 'sent_friend_request': sent_friend_request, 'friends': friends}
     return render(request, 'profile/profile.html', context)
@@ -228,14 +228,17 @@ def chatNotification(request):
 
 
 def friends(request, pk):
+
+
     current_user = request.user
     current_user_profile = current_user.userprofile
-    user = User.objects.get(id=pk)
-    print(pk)
-    user_profile = UserProfile.objects.filter(id=pk)[0]
-    for friend in user_profile.users_friends.all():
-        id = friend.id 
-        print('here', user.userprofile.id)
+    current_user_friends = current_user_profile.friends.all()
+
+    user = get_object_or_404(User, pk=pk)
+    user_profile = UserProfile.objects.get(user = user)
+    for friend in current_user_friends:
+        id = friend.id
+        print('here', id)
 
     friends = user_profile.friends.all()
     my_friends = current_user_profile.friends.all()
@@ -248,7 +251,7 @@ def friends(request, pk):
     context = {'user':user, 'current_user':current_user, 'friends':friends, 
                 'users':users, 'sent_friend_requests': sent_friend_requests,
                 'rec_friend_requests': rec_friend_requests, 'user_profile': user_profile,
-                'my_friends':my_friends}
+                'my_friends':my_friends, 'current_user_friends': current_user_friends}
 
     return render(request, 'profile/friends.html', context)
 
@@ -261,6 +264,7 @@ def send_friend_request(request, pk):
     receiver_pr = receiver.userprofile
 
     friend_request, created = FriendRequest.objects.get_or_create(sender=sender_pr,receiver=receiver_pr)
+
 
     if created:
         return redirect('profile', pk=pk)
@@ -296,6 +300,9 @@ def accept_friend_request(request, pk):
     if friend_request.receiver == request.user.userprofile:
         friend_request.receiver.friends.add(friend_request.sender)
         friend_request.sender.friends.add(friend_request.receiver)
+
+        print(friend_request.receiver.id)
+        print(friend_request.sender.id)
 
         friend_request.delete()
         
