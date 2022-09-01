@@ -44,7 +44,7 @@ def signup(request):
                 user_model = User.objects.get(username=username)
                 user_profile = UserProfile.objects.create(user_id=user_model.id)
                 user_profile.save()
-                return redirect('update_profile')
+                return redirect('create_profile')
 
         else:
             messages.info(request, 'Password is Uncorrect')
@@ -87,19 +87,20 @@ def profile(request, pk):
     current_user = request.user
     current_user_profile = current_user.userprofile
     sent_friend_request = FriendRequest.objects.filter(sender=current_user_profile, receiver=user_profile)
-    friends = current_user_profile.friends.all()
+    current_user_friends = current_user_profile.friends.all()
+    user_friends = user_profile.friends.all()
 
     context = {'user': user, 'user_profile': user_profile,
                 'current_user':current_user, 'current_user_profile':current_user_profile,
-                'sent_friend_request': sent_friend_request, 'friends': friends}
+                'sent_friend_request': sent_friend_request, 'current_user_friends': current_user_friends,
+                'user_friends':user_friends}
     return render(request, 'profile/profile.html', context)
 
 
 @login_required(login_url='signin')
-def update_profile(request):
+def create_profile(request):
     current_user = request.user
     current_user_profile = current_user.userprofile
-    print(current_user_profile)
     form = ProfileForm(instance=current_user_profile)
     context = {'current_user_profile': current_user_profile, 'form': form}
 
@@ -133,26 +134,27 @@ def update_profile(request):
         
         return redirect('profile', current_user.id)
 
-    return render(request, 'update_profile.html', context)
+    return render(request, 'create_profile.html', context)
 
 def chats(request, pk):
+    current_user = request.user
     user = request.user.userprofile
     friends = user.friends.all()
+    last_msg = Chat.objects.last()
 
-    context = {'friends': friends, 'user': user}
+    context = {'friends': friends, 'user': user, 'last_msg':last_msg, 'current_user': current_user}
 
     return render(request, 'profile/chats.html', context)
 
 
 def chat(request, pk):
     current_user = request.user
-    # friend = Friend.objects.get(profile_id=pk)
     friend = get_object_or_404(UserProfile, pk=pk)
     form = ChatForm()
-    user = request.user.userprofile
+    current_user_profile = request.user.userprofile
     profile = UserProfile.objects.get(id = friend.id)
     chats = Chat.objects.all()
-    received_chats = Chat.objects.filter(sender=profile, receiver=user, message_seen = False)
+    received_chats = Chat.objects.filter(sender=profile, receiver=current_user_profile, message_seen = False)
     received_chats.update(message_seen=True)
 
     if request.method == 'POST':
@@ -160,14 +162,14 @@ def chat(request, pk):
 
         if form.is_valid():
             chat = form.save(commit=False)
-            chat.sender = user
+            chat.sender = current_user_profile
             chat.receiver = profile
             chat.save()
 
             return redirect('chat', pk = friend.id)
 
     context = {'friend': friend, 'form': form, 
-                'user': user, 'profile': profile,  
+                'current_user_profile': current_user_profile, 'profile': profile,  
                 'chats': chats, 'num': received_chats.count(),
                 'current_user': current_user}
 
@@ -212,22 +214,7 @@ def not_seen(request, pk):
     
     return JsonResponse(message_list, safe=False)
 
-
-def chatNotification(request):
-    user = request.user.userprofile
-    friends = user.friends.all()
-    arr = []
-
-    for friend in friends:
-        chats = Chat.objects.filter(sender__id=friend.id, receiver=user, message_seen=False)
-        arr.append(chats.count())
-
-    return JsonResponse(arr, safe=False)
-
-
-
 def friends(request, pk):
-
 
     current_user = request.user
     current_user_profile = current_user.userprofile
@@ -235,12 +222,8 @@ def friends(request, pk):
 
     user = get_object_or_404(User, pk=pk)
     user_profile = UserProfile.objects.get(user = user)
-    for friend in current_user_friends:
-        id = friend.id
-        print('here', id)
-
     friends = user_profile.friends.all()
-    my_friends = current_user_profile.friends.all()
+
     users = User.objects.all()
 
 
@@ -250,7 +233,7 @@ def friends(request, pk):
     context = {'user':user, 'current_user':current_user, 'friends':friends, 
                 'users':users, 'sent_friend_requests': sent_friend_requests,
                 'rec_friend_requests': rec_friend_requests, 'user_profile': user_profile,
-                'my_friends':my_friends, 'current_user_friends': current_user_friends}
+                 'current_user_friends': current_user_friends}
 
 
     return render(request, 'profile/friends.html', context)
@@ -333,3 +316,47 @@ def delete_friend(request, pk):
     friend.friends.remove(user)
 
     return redirect ('friends', pk=pk)
+
+
+def notifications(request):
+    current_user = request.user
+    current_user_profile = current_user.userprofile
+    current_user_friends = current_user_profile.friends.all()
+
+    rec_friend_requests = FriendRequest.objects.filter(receiver=current_user_profile)
+    messages = Chat.objects.filter(receiver=current_user_profile, message_seen=False)
+
+    friend_request_sender = FriendRequest.sender
+    message_request_sender = Chat.sender
+
+    last_msg = Chat.objects.last()
+
+    context = {'current_user': current_user, 'current_user_profile': current_user_profile, 'current_user_friends': current_user_friends,
+                'rec_friend_requests': rec_friend_requests, 'messages': messages, 'friend_request_sender': friend_request_sender,
+                'message_request_sender': message_request_sender, 'last_msg': last_msg}
+
+    return render(request, 'profile/notifications.html', context)
+    
+
+def chatNotification(request):
+    current_user_profile = request.user.userprofile
+    friends = current_user_profile.friends.all()
+    arr = []
+
+    for friend in friends:
+        chats = Chat.objects.filter(sender__id=friend.id, receiver=current_user_profile, message_seen=False)
+        arr.append(chats.count())
+
+    return JsonResponse(arr, safe=False)
+
+
+def friendNotifications(request):
+    current_user_profile = request.user.userprofile
+    friends = current_user_profile.friends.all()
+    arr = []
+
+    for friend in friends:
+        requests = FriendRequest.objects.filter(sender__id=friend.id, receiver=current_user_profile)
+        arr.append(requests.count())
+
+    return JsonResponse(arr, safe=False)

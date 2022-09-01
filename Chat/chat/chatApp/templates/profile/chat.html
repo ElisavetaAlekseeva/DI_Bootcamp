@@ -21,21 +21,21 @@
             <div class="profile-image">
                 <img src="{{friend.profile.image.url}}" alt="" width="200px">
             </div>
-            <div class="name">
-                <h2>{{friend.profile.name}}</h2>
+            <div class="friend-name">
+                <h2>Chat With <a href="{% url 'profile' friend.id %}">{{friend.name}}</a></h2>
             </div>
         </div>
 
         <div class="chat-window" id="chat-window">
             {% for message in chats %}
-            {% if message.sender == user and message.receiver == profile %}
+            {% if message.sender == current_user_profile and message.receiver == profile %}
 
             <div class="message">
                 <div class="sent-by" style="color: red;">{{ message.sender.name }}</div>
                 <div class="text">{{message}}</div>
             </div>
 
-            {% elif message.sender == profile and message.receiver == user %}
+            {% elif message.sender == profile and message.receiver == current_user_profile %}
 
             <div class="message">
                 <div class="sent-by" style="color: green;">{{ message.sender.name }}</div>
