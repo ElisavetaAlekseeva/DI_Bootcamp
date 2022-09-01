@@ -2,13 +2,117 @@
     margin: 0;
     padding: 0;
     font-family: sans-serif;
+    text-decoration: none;
 }
 
-.section{
-    width: 100%;
-    min-height: 100vh;
-    padding-left: 8%;
-    padding-right: 8%;
-    box-sizing: border-box;
-    overflow: hidden;
+body{
+    height: 100vh;
+    font-size: 28px;
+}
+
+.container{
+    padding: 30px;
+    height: 100vh;
+    padding-left: 15%;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
+
+.header{
+    padding-top: 50px;
+    grid-column: 4 / 6;
+    grid-row: 1 / 2;
+    text-align:center;
+    justify-content: center;
+}
+
+.header .name{
+    font-size: 36px;
+    font-weight: 600;
+}
+
+.header .icon{
+    font-size: 20px;
+}
+
+.header .name, .header .icon{
+    display: inline-block; 
+}
+
+.col-1{
+    grid-column: 1 / 2;
+    grid-row: 3 / 5;
+}
+
+.time, .location, .email{
+    display: flex;
+    padding: 10px;
+}
+
+.time i, .location i, .email i{
+    padding: 6px 10px;
+}
+
+.col-2{
+    grid-column: 3 / 5;
+    grid-row: 2 / 5;
+}
+
+.image{
+    margin: auto;
+    display: inline-block;
+    padding: 8px;
+    background: linear-gradient(130deg, rgb(68, 67, 67), white);
+    border-radius: 50%;
+    background-size: 200%;
+    animation: animated-gradient 3s linear infinite;
+}
+
+@keyframes animated-gradient{
+    25% {background-position: left bottom;}
+    50% {background-position: right bottom;}
+    75% {background-position: right top;}
+    100% {background-position: left top;}
+}
+
+.image img{
+    display: block;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+}
+
+.buttons{
+    display: flex;
+    padding: 10px;
+    padding-left: 70px;
+}
+
+.buttons .friend-status, .buttons .message{
+    padding: 10px;
+}
+
+.col-3{
+    grid-column: 8 / 10;
+    grid-row: 3 / 5;
+}
+
+.friends_link h1{
+    padding: 0 30px;
+}
+
+.friend a{
+    padding: 10px;
+    display: flex;
+}
+
+.friend_img{
+    margin: 0 20px;
+}
+
+.friend_img img{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
 }
