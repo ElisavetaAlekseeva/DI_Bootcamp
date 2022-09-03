@@ -143,8 +143,15 @@ def chats(request, pk):
     friends = user.friends.all()
     friend = get_object_or_404(UserProfile, pk=pk)
     last_msg = Chat.objects.last()
+    form = ChatForm()
+    current_user_profile = request.user.userprofile
+    profile = UserProfile.objects.get(id = friend.id)
+    chats = Chat.objects.all()
+    received_chats = Chat.objects.filter(sender=profile, receiver=current_user_profile, message_seen = False)
 
-    context = {'friends': friends, 'user': user, 'last_msg':last_msg, 'current_user': current_user, 'friend':friend}
+    context = {'friends': friends, 'user': user, 'last_msg':last_msg, 'current_user': current_user, 'friend':friend,
+                'form': form, 'current_user_profile': current_user_profile, 'profile': profile,  
+                'chats': chats, 'num': received_chats.count()}
 
     return render(request, 'profile/chats.html', context)
 
@@ -152,19 +159,37 @@ def chats(request, pk):
 def chat(request, pk):
     current_user = request.user
     friend = get_object_or_404(UserProfile, pk=pk)
-    form = ChatForm()
     current_user_profile = request.user.userprofile
     profile = UserProfile.objects.get(id = friend.id)
-    chats = Chat.objects.all()
     received_chats = Chat.objects.filter(sender=profile, receiver=current_user_profile, message_seen = False)
     received_chats.update(message_seen=True)
+    chats = Chat.objects.filter(sender=profile, receiver=current_user_profile)
+    msgs = []
+    for chat in chats:
+        res = {'sender': chat.sender.name,
+            'sender_id': chat.sender.id,
+            'receiver': chat.receiver.name,
+            'reveiver_id': chat.receiver.id,
+            'message': chat.body,
+            'msg_id': chat.id,
+        }
+        msgs.append(res)
 
-    context = {'friend': friend, 'form': form, 
-                'current_user_profile': current_user_profile, 'profile': profile,  
-                'chats': chats, 'num': received_chats.count(),
-                'current_user': current_user}
+    chats = Chat.objects.filter(sender=current_user_profile, receiver=profile)
+    for chat in chats:
+        res = {'sender': chat.sender.name,
+            'sender_id': chat.sender.id,
+            'receiver': chat.receiver.name,
+            'reveiver_id': chat.receiver.id,
+            'message': chat.body,
+            'msg_id': chat.id
+        }
+        msgs.append(res)
 
-    return render(request, 'profile/chat.html', context)
+    msgs = sorted(msgs, key=lambda x: (x['msg_id']))
+    
+    return JsonResponse(msgs, safe=False )
+
 
 
 def sentMessage(request, pk):
@@ -197,7 +222,7 @@ def not_seen(request, pk):
     messages = Chat.objects.filter(sender=profile, receiver=user, message_seen=False)
 
     message_list = [{
-        "sender": message.sender.name,
+        "sender_id": message.sender.id,
         "message": message.body,
 
     } for message in messages]
@@ -381,3 +406,36 @@ def send_message(request, pk):
 
     return JsonResponse(new_chat_message.body, safe=False)
         
+def get_last_message(request, pk):
+    user = request.user.userprofile
+    friend = get_object_or_404(UserProfile, pk=pk)
+    current_user_profile = request.user.userprofile
+    profile = UserProfile.objects.get(id = friend.id)
+    received_chats = Chat.objects.filter(sender=profile, receiver=current_user_profile)
+    sended_chats = Chat.objects.filter(sender=current_user_profile, receiver=profile)
+    msgs = []
+    for chat in received_chats:
+        res = {'sender': chat.sender.name,
+            'sender_id': chat.sender.id,
+            'receiver': chat.receiver.name,
+            'reveiver_id': chat.receiver.id,
+            'message': chat.body,
+            'msg_id': chat.id,
+        }
+        msgs.append(res)
+
+    chats = Chat.objects.filter(sender=current_user_profile, receiver=profile)
+    for chat in sended_chats:
+        res = {'sender': chat.sender.name,
+            'sender_id': chat.sender.id,
+            'receiver': chat.receiver.name,
+            'reveiver_id': chat.receiver.id,
+            'message': chat.body,
+            'msg_id': chat.id
+        }
+        msgs.append(res)
+
+    msgs = sorted(msgs, key=lambda x: (x['msg_id']))
+
+    return JsonResponse(msgs[-1], safe=False)
+
