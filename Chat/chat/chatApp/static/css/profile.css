@@ -3,20 +3,32 @@
     padding: 0;
     font-family: sans-serif;
     text-decoration: none;
+    
 }
 
 body{
     height: 100vh;
     font-size: 28px;
+    background-color: #afefd4a9;
 }
 
 .container{
     padding: 30px;
     height: 100vh;
-    padding-left: 15%;
     display: grid;
     grid-template-columns: repeat(9, 1fr);
     grid-template-rows: repeat(5, 1fr);
+    align-items: normal;
+}
+
+a{
+    text-decoration: none;
+    color: #000000;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #2ab57b;
 }
 
 .header{
@@ -36,6 +48,15 @@ body{
     font-size: 20px;
 }
 
+.header .icon i{
+    color: #2ab57b;
+}
+
+.header .icon .a-icon i:hover{
+    color: #13dd89;
+}
+
+
 .header .name, .header .icon{
     display: inline-block; 
 }
@@ -45,28 +66,32 @@ body{
     grid-row: 3 / 5;
 }
 
-.time, .location, .email{
+.quote, .location, .email{
     display: flex;
     padding: 10px;
 }
 
-.time i, .location i, .email i{
+.quote i, .location i, .email i{
     padding: 6px 10px;
 }
 
 .col-2{
-    grid-column: 3 / 5;
+    grid-column: 3 / 7;
     grid-row: 2 / 5;
+    justify-content: center;
+    align-content: center;
 }
 
 .image{
+    box-shadow: 5px 7px rgba(55, 54, 54, 0.339);
     margin: auto;
     display: inline-block;
     padding: 8px;
-    background: linear-gradient(130deg, rgb(68, 67, 67), white);
+    /* background: linear-gradient(130deg, rgb(68, 67, 67), white); */
+    background: linear-gradient(90deg, rgba(245,243,136,1) 0%, rgba(82,226,182,1) 39%, rgba(137,235,255,1) 91%);
     border-radius: 50%;
     background-size: 200%;
-    animation: animated-gradient 3s linear infinite;
+    animation: animated-gradient 5s linear infinite;
 }
 
 @keyframes animated-gradient{
@@ -116,3 +141,32 @@ body{
     width: 50px;
     height: 50px;
 }
+
+/* BUTTONS (MESSAGE, FRIEND STATUS) */
+
+.btn a{
+    text-decoration: none;  
+}
+
+.btn {
+    padding: 15px 25px;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    background-color: #fff;
+    color: #2ab57b;
+    border: none;
+    border-radius: 15px;
+    /* box-shadow: 3px 5px rgba(55, 54, 54, 0.339); */
+  }
+  
+  .btn:hover {
+    background-color:  #13dd89;
+    color: #ffffff;
+}
+  
+  .btn:active {
+    background-color:  #13dd89;
+    box-shadow: inset 3px 3px rgba(55, 54, 54, 0.339);
+  }

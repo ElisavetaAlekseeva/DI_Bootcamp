@@ -1,4 +1,5 @@
 from calendar import c
+from cmath import e
 from urllib import response
 from venv import create
 from wsgiref.util import request_uri
@@ -157,17 +158,6 @@ def chat(request, pk):
     received_chats = Chat.objects.filter(sender=profile, receiver=current_user_profile, message_seen = False)
     received_chats.update(message_seen=True)
 
-    if request.method == 'POST':
-        form = ChatForm(request.POST)
-
-        if form.is_valid():
-            chat = form.save(commit=False)
-            chat.sender = current_user_profile
-            chat.receiver = profile
-            chat.save()
-
-            return redirect('chat', pk = friend.id)
-
     context = {'friend': friend, 'form': form, 
                 'current_user_profile': current_user_profile, 'profile': profile,  
                 'chats': chats, 'num': received_chats.count(),
@@ -210,6 +200,7 @@ def not_seen(request, pk):
         "message": message.body,
 
     } for message in messages]
+
     messages.update(message_seen=True)
     
     return JsonResponse(message_list, safe=False)
@@ -246,13 +237,31 @@ def send_friend_request(request, pk):
     receiver = User.objects.get(id=pk)
     receiver_pr = receiver.userprofile
 
-    friend_request, created = FriendRequest.objects.get_or_create(sender=sender_pr,receiver=receiver_pr)
-
-
+    if isFriendRequestExists(receiver_pr, sender_pr):
+        try:
+            accept_friend_request(request, pk)
+            created = True
+        except:
+            created = False
+    else:
+        friend_request, created = FriendRequest.objects.get_or_create(sender=sender_pr,receiver=receiver_pr)
+    
     if created:
         return redirect('profile', pk=pk)
     else:
         return redirect('profile', pk=pk)
+
+def isFriendRequestExists(sender, receiver):
+    print('checking...')
+    try:
+        friend_request = FriendRequest.objects.get(sender=sender, receiver=receiver)
+        friend_request.receiver.friends.add(friend_request.sender)
+        friend_request.sender.friends.add(friend_request.receiver)
+        friend_request.delete()
+        return True
+    except Exception as e:
+        print(e)
+    return False
 
 
 def delete_friend_request(request, pk):
@@ -360,3 +369,14 @@ def friendNotifications(request):
         arr.append(requests.count())
 
     return JsonResponse(arr, safe=False)
+
+def send_message(request, pk):
+    user_profile = request.user.userprofile
+    friend = get_object_or_404(UserProfile, pk=pk)
+    friend_profile = UserProfile.objects.get(id=friend.id)
+    data = json.loads(request.body)
+    new_message = data["msg"]
+    new_chat_message = Chat.objects.create(body=new_message, sender=user_profile, receiver=friend_profile, message_seen=False)
+
+    return JsonResponse(new_chat_message.body, safe=False)
+        

@@ -6,7 +6,7 @@ from .views import (friends, signup, signin, signout,
                     not_seen, friends, send_friend_request,
                     delete_friend_request, accept_friend_request,
                     decline_friend_request, delete_friend,
-                    friendNotifications, notifications)
+                    friendNotifications, notifications, send_message)
 
 
 urlpatterns = [
@@ -29,4 +29,5 @@ urlpatterns = [
     path("chatNotification", chatNotification, name="chatNotification"),
     path("friendNotification", friendNotifications, name="friendNotifications"),
     path("notification", notifications, name="notifications"),
+    path('send_message/<int:pk>', send_message, name="send_message")
 ]

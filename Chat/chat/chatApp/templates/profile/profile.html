@@ -18,10 +18,12 @@
 </head>
 <body>
 
+{% include 'partials/sidebar.html' %}
+
+
 {% if user != current_user %}
 
     <div class="container">
-
         <div class="header">
             <div class="name">
                 {{user_profile.name}}
@@ -35,8 +37,9 @@
             
         <div class="col col-1">
             <div class="info">
-                <div class="time">
-                    <i class="fa-solid fa-clock"></i>
+                <div class="quote">
+                    <i class="fa-solid fa-quote-left"></i>
+                    Bla Bla
                 </div>
                 <div class="location">
                     <i class="fa-solid fa-location-dot"></i>
@@ -55,25 +58,31 @@
             </div>
             <div class="buttons">
                 <div class="message">
-                    <button><a href="{% url 'chat' user.id %}">Message</a></button>
+                    <a href="{% url 'chat' user.id %}">
+                        <button class="btn" role="button">
+                            <i class="fa-solid fa-envelope"></i>
+                        </button>
+                    </a>
                 </div>
                 <div class="friend-status">
                     {% if user_profile in current_user_friends %}
                         <a href="{% url 'delete_friend' user.id %}">
-                            <button type="button" class="btn-status">
-                                Remove from Friends
+                            <button type="button" class="btn btn-status">
+                                <i class="fa-solid fa-user-minus"></i>
                             </button>
                         </a>
+
                     {% elif user_profile not in current_user_friends and not sent_friend_request %}
                         <a href="{% url 'send_friend_request' user.id %}">
-                            <button type="button" class="btn-status">
-                                Send Friend Request
+                            <button type="button" class="btn btn-status">
+                                <i class="fa-solid fa-user-plus"></i>
                             </button>
                         </a>
+                        
                     {% elif user_profile not in current_user_friends and sent_friend_request%}
                         <a href="{% url 'delete_friend_request' user.id %}">
-                            <button type="button" class="btn-status">
-                                Cancel Friend Request
+                            <button type="button" class="btn btn-status">
+                                <i class="fa-solid fa-user-minus"></i>
                             </button>
                         </a>
                     {%endif%}
@@ -110,14 +119,17 @@
                 {{user_profile.name}}
             </div>
             <div id="icon" class="icon">
-                <a href="#"><i class="fa-solid fa-pen"></i></a>
+                <a class="a-icon" href="#"><i class="fa-solid fa-pen"></i></a>
             </div>
         </div>
 
         <div class="col col-1">
             <div class="info">
-                <div class="time">
-                    <i class="fa-solid fa-clock"></i>
+                <div class="quote">
+                    <i class="fa-solid fa-quote-left"></i>
+                    <div class="text">
+                        Bla Bla
+                    </div>
                 </div>
                 <div class="location">
                     <i class="fa-solid fa-location-dot"></i>
