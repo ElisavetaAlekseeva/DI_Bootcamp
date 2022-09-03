@@ -141,9 +141,10 @@ def chats(request, pk):
     current_user = request.user
     user = request.user.userprofile
     friends = user.friends.all()
+    friend = get_object_or_404(UserProfile, pk=pk)
     last_msg = Chat.objects.last()
 
-    context = {'friends': friends, 'user': user, 'last_msg':last_msg, 'current_user': current_user}
+    context = {'friends': friends, 'user': user, 'last_msg':last_msg, 'current_user': current_user, 'friend':friend}
 
     return render(request, 'profile/chats.html', context)
 
