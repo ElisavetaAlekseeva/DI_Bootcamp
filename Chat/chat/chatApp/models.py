@@ -6,13 +6,13 @@ from django.contrib.auth.models import User
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User,blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='profile_images', default='blankprofilephoto.jpeg', null=True)
+    image = models.ImageField(default='defaultimg.jpg', null=True, blank=True)
     hobbies = models.CharField(max_length=200, null=True)
     location = models.CharField(max_length=100, blank=True)
     friends = models.ManyToManyField('UserProfile', related_name='users_friends', default='')
-    user_friend = models.ManyToManyField('Friend', related_name='user_friend', default='')
+    user_friend = models.ManyToManyField('Friend', related_name='user_friend', default='',blank=True)
 
     def __str__(self) -> str:
         return self.name

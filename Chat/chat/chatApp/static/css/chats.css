@@ -64,7 +64,11 @@ img{
     flex: 70%;
     background-color: #f7f7f7;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.42);
+}
 
+.main{
+    overflow-y: auto;
+    max-height: 85vh;
 }
 
 input{
@@ -251,5 +255,10 @@ img{
 }
 
 .lastMessage {
-    color: white;
-}
+    display: block;
+    width: 100px;
+    height: 25px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }

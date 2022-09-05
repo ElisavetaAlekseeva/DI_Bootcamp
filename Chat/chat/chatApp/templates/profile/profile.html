@@ -24,149 +24,158 @@
 {% if user != current_user %}
 
     <div class="container">
-        <div class="header">
-            <div class="name">
-                {{user_profile.name}}
-            </div>
-            <div id="icon" class="icon">
-                {% if user_profile in current_user_friends %}
-                    <i class="fa-solid fa-user-check"></i>
-                {% endif %}
-            </div>
-        </div>
+
+        <div class="section">  
             
-        <div class="col col-1">
-            <div class="info">
-                <div class="quote">
-                    <i class="fa-solid fa-quote-left"></i>
-                    Bla Bla
-                </div>
-                <div class="location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    {{user_profile.location}}
-                </div>
-                <div class="email">
-                    <i class="fa-solid fa-at"></i>
-                    <a href="#"> {{user.email}} </a>
+            <div class="col col-1">
+                <div class="info">
+                    <div class="location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        {{user_profile.location}}
+                    </div>
+                    <div class="email">
+                        <i class="fa-solid fa-at"></i>
+                        <a href="#"> {{user.email}} </a>
+                    </div>
+                    <div class="quote">
+                        <i class="fa-solid fa-quote-left"></i>
+                        <p>mama papa ya </p>
+                    </div>
                 </div>
             </div>
+
+            <div class="col col-2">
+                <div class="header">
+                    <div class="name">
+                        {{user_profile.name}}
+                    </div>
+                    <div id="icon" class="icon">
+                        {% if user_profile in current_user_friends %}
+                            <i class="fa-solid fa-user-check"></i>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="image">
+                    <img id='pr_image' src="{{user_profile.image.url}}" alt="">
+                </div>
+                <div class="buttons">
+                    <div class="message">
+                        <a href="{% url 'chats' current_user.id %}">
+                            <button class="btn" role="button">
+                                <i class="fa-solid fa-envelope"></i>
+                            </button>
+                        </a>
+                    </div>
+                    <div class="friend-status">
+                        {% if user_profile in current_user_friends %}
+                            <a href="{% url 'delete_friend' user.id %}">
+                                <button type="button" class="btn btn-status">
+                                    <i class="fa-solid fa-user-minus"></i>
+                                </button>
+                            </a>
+
+                        {% elif user_profile not in current_user_friends and not sent_friend_request %}
+                            <a href="{% url 'send_friend_request' user.id %}">
+                                <button type="button" class="btn btn-status">
+                                    <i class="fa-solid fa-user-plus"></i>
+                                </button>
+                            </a>
+                            
+                        {% elif user_profile not in current_user_friends and sent_friend_request%}
+                            <a href="{% url 'delete_friend_request' user.id %}">
+                                <button type="button" class="btn btn-status">
+                                    <i class="fa-solid fa-user-minus"></i>
+                                </button>
+                            </a>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col col-3">
+                <div class="friends_link">
+                    <h1><a href="{%url 'friends' user_profile.id%}">Friends:</a></h1>
+                </div>
+
+                <div class="friends">
+                    {% for friend in user_friends %}
+                        <div class="friend">
+                            <a href="{% url 'profile' friend.id %}">
+                                <div class="friend_img"><img id='pr_image' src="{{user_profile.image.url}}" alt=""> </div>
+                                <div class="friend_name">{{ friend.name }}</div> 
+                            </a>
+                        </div>                    
+                    {% endfor %}
+                </div>
+            </div>
+
         </div>
+    </div>
+    
+    {% else %}
+        <div class="container">
+            
+            
 
-        <div class="col col-2">
-            <div class="image">
-                <img id='pr_image' src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" alt="">
-            </div>
-            <div class="buttons">
-                <div class="message">
-                    <a href="{% url 'chat' user.id %}">
-                        <button class="btn" role="button">
-                            <i class="fa-solid fa-envelope"></i>
-                        </button>
-                    </a>
+        <div class="section">  
+
+                <div class="col col-1">
+                    <div class="info">
+                        <div class="location">
+                            <i class="fa-solid fa-location-dot"></i>
+                            {{current_user_profile.location}}
+                        </div>
+                        <div class="email">
+                            <i class="fa-solid fa-at"></i>
+                            <a href="#"> {{current_user.email}} </a>
+                        </div>
+                        <div class="quote">
+                            <i class="fa-solid fa-quote-left"></i>
+                            <div class="text">
+                                Bla Bla
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="friend-status">
-                    {% if user_profile in current_user_friends %}
-                        <a href="{% url 'delete_friend' user.id %}">
-                            <button type="button" class="btn btn-status">
-                                <i class="fa-solid fa-user-minus"></i>
-                            </button>
-                        </a>
 
-                    {% elif user_profile not in current_user_friends and not sent_friend_request %}
-                        <a href="{% url 'send_friend_request' user.id %}">
-                            <button type="button" class="btn btn-status">
-                                <i class="fa-solid fa-user-plus"></i>
-                            </button>
-                        </a>
+                <div class="col col-2">
+                    <div class="header">
+                        <div class="name">
+                            {{user_profile.name}} 
+                        </div>
+                        <!-- <div class="update">
+                            <a href="{% url 'create_profile' %}">UPDATE</a>
+                        </div> -->
+                        <div id="icon" class="icon">
+                            <a class="a-icon" href="{% url 'create_profile' %}"><i class="fa-solid fa-pen"></i></a>
+                        </div>
+                    </div>
+                    <div class="image">
+                        <img cid='pr_image' src="{{current_user_profile.image.url}}" alt="">
+                    </div>
+                    <div class="buttons">
                         
-                    {% elif user_profile not in current_user_friends and sent_friend_request%}
-                        <a href="{% url 'delete_friend_request' user.id %}">
-                            <button type="button" class="btn btn-status">
-                                <i class="fa-solid fa-user-minus"></i>
-                            </button>
-                        </a>
-                    {%endif%}
-                </div>
-            </div>
-        </div>
-
-        <div class="col col-3">
-
-            <div class="friends_link">
-                <h1><a href="{%url 'friends' user_profile.id%}">Friends:</a></h1>
-            </div>
-
-            <div class="friends">
-                {% for friend in user_friends %}
-                <div class="friend">
-                    <a href="{% url 'profile' friend.id %}">
-                        <div class="friend_img">{{ friend.image }}</div>
-                        <div class="friend_name">{{ friend.name }}</div>
-                    </a>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-
-    </div>
- 
-{% else %}
-
-    <div class="container">
-        
-        <div class="header">
-            <div class="name">
-                {{user_profile.name}}
-            </div>
-            <div id="icon" class="icon">
-                <a class="a-icon" href="#"><i class="fa-solid fa-pen"></i></a>
-            </div>
-        </div>
-
-        <div class="col col-1">
-            <div class="info">
-                <div class="quote">
-                    <i class="fa-solid fa-quote-left"></i>
-                    <div class="text">
-                        Bla Bla
                     </div>
                 </div>
-                <div class="location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    {{current_user_profile.location}}
-                </div>
-                <div class="email">
-                    <i class="fa-solid fa-at"></i>
-                    <a href="#"> {{current_user.email}} </a>
-                </div>
-            </div>
-        </div>
 
-        <div class="col col-2">
-            <div class="image">
-                <img cid='pr_image' src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" alt="">
-            </div>
-        </div>
-
-        <div class="col col-3">
-
-            <div class="friends_link">
-                <h1><a href="{%url 'friends' current_user.id%}">Friends:</a></h1>
-            </div>
-
-            <div class="friends">
-                {% for friend in current_user_friends %}
-                    <div class="friend">
-                        <a href="{% url 'profile' friend.id %}">
-                            <div class="friend_img"><img cid='pr_image' src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" alt=""></div>
-                            <div class="friend_name">{{friend.name}}</div>
-                        </a>
+                <div class="col col-3">
+                    <div class="friends_link">
+                        <h1><a href="{%url 'friends' current_user.id%}">Friends:</a></h1>
                     </div>
-                {% endfor %}
+
+                    <div class="friends">
+                        {% for friend in current_user_friends %}
+                            <div class="friend">
+                                <a href="{% url 'profile' friend.id %}">
+                                    <div class="friend_img"><img cid='pr_image' src="{{user_profile.image.url}}" alt=""></div>
+                                    <div class="friend_name">{{friend.name}}</div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
-
-    </div>
 
 {% endif %}
 

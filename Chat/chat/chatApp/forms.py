@@ -1,6 +1,7 @@
 from django import forms
 from .models import UserProfile, Chat
 
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile

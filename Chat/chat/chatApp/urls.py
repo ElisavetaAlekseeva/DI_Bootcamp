@@ -11,7 +11,7 @@ from .views import (friends, signup, signin, signout,
 
 urlpatterns = [
     path('signup', signup, name='signup'),
-    path('homepage', signin, name='signin'),
+    path('', signin, name='signin'),
     path('signout', signout, name='signout'),
     path("create-profile", create_profile, name="create_profile"),
     path("user-profile/<int:pk>", profile, name="profile"),

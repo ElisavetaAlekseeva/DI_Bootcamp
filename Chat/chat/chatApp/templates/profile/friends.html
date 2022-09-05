@@ -48,7 +48,7 @@
                     </a>
                     <div class="buttons">
                         <div class="btn btn-chat">
-                            <a href="{% url 'chat' friend.id %}"><i class="fa-regular fa-message"></i></a>
+                            <a href="{% url 'chats' current_user.id %}"><i class="fa-regular fa-message"></i></a>
                         </div>
                         <div class="btn delete-friend">
                             <a href="#" class="trash-bin"><i class="fa-solid fa-trash"></i></a>
@@ -56,140 +56,6 @@
                     </div>
                 </div>
 
-
-                <div class="friend">
-                    <a href="{% url 'profile' friend.id %}">
-                        <div class="content">
-                            <img id='pr_image' src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" alt="">
-                            <div class="details">
-                                <span>{{friend.name}}</span>
-                                <p>{{friend.location}}</p>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="buttons">
-                        <div class="btn btn-chat">
-                            <a href="{% url 'chat' friend.id %}"><i class="fa-regular fa-message"></i></a>
-                        </div>
-                        <div class="btn delete-friend">
-                            <a href="#"><i class="fa-solid fa-trash"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="friend">
-                    <a href="{% url 'profile' friend.id %}">
-                        <div class="content">
-                            <img id='pr_image' src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" alt="">
-                            <div class="details">
-                                <span>{{friend.name}}</span>
-                                <p>{{friend.location}}</p>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="buttons">
-                        <div class="btn btn-chat">
-                            <a href="{% url 'chat' friend.id %}"><i class="fa-regular fa-message"></i></a>
-                        </div>
-                        <div class="btn delete-friend">
-                            <a href="#"><i class="fa-solid fa-trash"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="friend">
-                    <a href="{% url 'profile' friend.id %}">
-                        <div class="content">
-                            <img id='pr_image' src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" alt="">
-                            <div class="details">
-                                <span>{{friend.name}}</span>
-                                <p>{{friend.location}}</p>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="buttons">
-                        <div class="btn btn-chat">
-                            <a href="{% url 'chat' friend.id %}"><i class="fa-regular fa-message"></i></a>
-                        </div>
-                        <div class="btn delete-friend">
-                            <a href="#"><i class="fa-solid fa-trash"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="friend">
-                    <a href="{% url 'profile' friend.id %}">
-                        <div class="content">
-                            <img id='pr_image' src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" alt="">
-                            <div class="details">
-                                <span>{{friend.name}}</span>
-                                <p>{{friend.location}}</p>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="buttons">
-                        <div class="btn btn-chat">
-                            <a href="{% url 'chat' friend.id %}"><i class="fa-regular fa-message"></i></a>
-                        </div>
-                        <div class="btn delete-friend">
-                            <a href="#"><i class="fa-solid fa-trash"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="friend">
-                    <a href="{% url 'profile' friend.id %}">
-                        <div class="content">
-                            <img id='pr_image' src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" alt="">
-                            <div class="details">
-                                <span>{{friend.name}}</span>
-                                <p>{{friend.location}}</p>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="buttons">
-                        <div class="btn btn-chat">
-                            <a href="{% url 'chat' friend.id %}"><i class="fa-regular fa-message"></i></a>
-                        </div>
-                        <div class="btn delete-friend">
-                            <a href="#"><i class="fa-solid fa-trash"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="friend">
-                    <a href="{% url 'profile' friend.id %}">
-                        <div class="content">
-                            <img id='pr_image' src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" alt="">
-                            <div class="details">
-                                <span>{{friend.name}}</span>
-                                <p>{{friend.location}}</p>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="buttons">
-                        <div class="btn btn-chat">
-                            <a href="{% url 'chat' friend.id %}"><i class="fa-regular fa-message"></i></a>
-                        </div>
-                        <div class="btn delete-friend">
-                            <a href="#"><i class="fa-solid fa-trash"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="friend">
-                    <a href="{% url 'profile' friend.id %}">
-                        <div class="content">
-                            <img id='pr_image' src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" alt="">
-                            <div class="details">
-                                <span>{{friend.name}}</span>
-                                <p>{{friend.location}}</p>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="buttons">
-                        <div class="btn btn-chat">
-                            <a href="{% url 'chat' friend.id %}"><i class="fa-regular fa-message"></i></a>
-                        </div>
-                        <div class="btn delete-friend">
-                            <a href="#"><i class="fa-solid fa-trash"></i></a>
-                        </div>
-                    </div>
-                </div>
             {% endfor %}
 
         </div>

@@ -103,8 +103,7 @@ def create_profile(request):
     current_user = request.user
     current_user_profile = current_user.userprofile
     form = ProfileForm(instance=current_user_profile)
-    context = {'current_user_profile': current_user_profile, 'form': form}
-
+    context = {'current_user_profile': current_user_profile, 'form': form, 'current_user': current_user}
     if request.method == 'POST':
 
         form = ProfileForm(request.POST, instance=current_user_profile)

@@ -139,3 +139,48 @@
 
 </body>
 </html>
+
+
+
+
+
+
+
+<!-- log up -->
+
+<div id="signup">
+    <div class="text">
+        <div class="header">
+            <i id="text_icon" class="fa-solid fa-message"></i>
+            <span id="logo">CHAT</span>
+            <h2>Chat can be logged in with email</h2>
+        </div>
+
+        <div class="container">
+            <i class="item icon fa-solid fa-user"></i>
+            <span class="item">Single account for VK services and partners</span>
+
+            <i class="item icon fa-solid fa-lock"></i>
+            <span class="item">Reliable protection linked to email</span>
+
+            <i class="item icon fa-solid fa-arrow-right-to-bracket"></i>
+            <span class="item">Quick entry in one click</span>
+        </div>
+    </div>
+
+    <div class="form">
+        <i id="form_icon" class="fa-solid fa-message"></i>
+        <h1>Enter your data</h1>
+        <form id="signup_form" class="form form-up" method="post">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username">
+            <input type="email" name="email" placeholder="Email">
+            <input type="password" name="password" placeholder="Password">
+            <input type="password" name="password2" placeholder="Confirm Password">
+            <div class="buttons">
+                <button type="submit">Signup</button>
+                <button id="close_signup_btn" type="button"><a href="{% url 'signin' %}">Cancel</a></button>
+            </div>
+        </form>
+    </div>
+</div>
