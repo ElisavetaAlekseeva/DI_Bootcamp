@@ -16,7 +16,8 @@ from itertools import chain
 from django.contrib.auth import logout, login
 from django.http import JsonResponse
 import json
-
+from chat import settings
+from django.core.mail import send_mail
 
 def signup(request):
 
@@ -28,12 +29,10 @@ def signup(request):
 
         if password == password2:
             if User.objects.filter(username=username).exists():
-                messages.info(request, 'Your Username is taken')
                 return redirect('signup')
 
-            elif User.objects.filter(email=email).exists():
-                messages.info(request, 'Your Email is taken')
-                return redirect('signup')
+            # elif User.objects.filter(email=email).exists():
+            #     return redirect('signup')
 
             else:
                 user = User.objects.create_user(username=username, email=email, password=password)
@@ -45,6 +44,21 @@ def signup(request):
                 user_model = User.objects.get(username=username)
                 user_profile = UserProfile.objects.create(user_id=user_model.id)
                 user_profile.save()
+
+                messages.success(request, 'Your account has been successfully created. We have sent you a confirmation email, please confirm your email address in order to activate your account.')
+
+                # EMAIL
+                print('------')
+                print(user.email)
+
+                subject = 'Welcome to Lisa Chat App!'
+                message = f'Hello {user.username}! \n Welcome to Lisa Chat App! \n We sent you a confirmation email, please confirm your email address in order to activate your account.'
+                from_email = settings.EMAIL_HOST_USER
+                to_list = [user.email]
+                print(subject, message, from_email, to_list)
+                send_mail(subject, message, from_email, to_list, fail_silently=True)
+
+
                 return redirect('create_profile')
 
         else:
