@@ -106,7 +106,6 @@ def activate(request, uidb64, token):
         return redirect('create_profile')
 
 
-
 def signin(request):
     user = request.user
     if request.method == 'POST':
@@ -202,6 +201,7 @@ def chats(request, pk):
     chats = Chat.objects.all()
     received_chats = Chat.objects.filter(sender=profile, receiver=current_user_profile, message_seen = False)
 
+
     context = {'friends': friends, 'user': user, 'last_msg':last_msg, 'current_user': current_user, 'friend':friend,
                 'form': form, 'current_user_profile': current_user_profile, 'profile': profile,  
                 'chats': chats, 'num': received_chats.count()}
@@ -238,7 +238,7 @@ def chat(request, pk):
             'msg_id': chat.id
         }
         msgs.append(res)
-
+    
     msgs = sorted(msgs, key=lambda x: (x['msg_id']))
     
     return JsonResponse(msgs, safe=False )
@@ -292,6 +292,56 @@ def delete_message(request, pk):
     message.delete()
 
     return JsonResponse(pk , safe=False)
+
+
+def send_message(request, pk):
+    user_profile = request.user.userprofile
+    friend = get_object_or_404(UserProfile, pk=pk)
+    friend_profile = UserProfile.objects.get(id=friend.id)
+    data = json.loads(request.body)
+    new_message = data["msg"]
+    new_chat_message = Chat.objects.create(body=new_message, sender=user_profile, receiver=friend_profile, message_seen=False)
+
+
+    return JsonResponse(new_chat_message.body, safe=False)
+        
+
+def get_last_message(request, pk):
+    user = request.user.userprofile
+    friend = get_object_or_404(UserProfile, pk=pk)
+    current_user_profile = request.user.userprofile
+    profile = UserProfile.objects.get(id = friend.id)
+    received_chats = Chat.objects.filter(sender=profile, receiver=current_user_profile)
+    sended_chats = Chat.objects.filter(sender=current_user_profile, receiver=profile)
+
+    msgs = []
+    for chat in received_chats:
+        res = {'sender': chat.sender.name,
+            'sender_id': chat.sender.id,
+            'receiver': chat.receiver.name,
+            'reveiver_id': chat.receiver.id,
+            'message': chat.body,
+            'msg_id': chat.id,
+        }
+        msgs.append(res)
+
+    chats = Chat.objects.filter(sender=current_user_profile, receiver=profile)
+    for chat in sended_chats:
+        res = {'sender': chat.sender.name,
+            'sender_id': chat.sender.id,
+            'receiver': chat.receiver.name,
+            'reveiver_id': chat.receiver.id,
+            'message': chat.body,
+            'msg_id': chat.id,
+        }
+        msgs.append(res)
+
+
+    msgs = sorted(msgs, key=lambda x: (x['msg_id']))
+
+    return JsonResponse(msgs[-1], safe=False)
+
+
 
      
 
@@ -463,47 +513,4 @@ def friendNotifications(request):
         arr.append(requests.count())
 
     return JsonResponse(arr, safe=False)
-
-def send_message(request, pk):
-    user_profile = request.user.userprofile
-    friend = get_object_or_404(UserProfile, pk=pk)
-    friend_profile = UserProfile.objects.get(id=friend.id)
-    data = json.loads(request.body)
-    new_message = data["msg"]
-    new_chat_message = Chat.objects.create(body=new_message, sender=user_profile, receiver=friend_profile, message_seen=False)
-
-    return JsonResponse(new_chat_message.body, safe=False)
-        
-def get_last_message(request, pk):
-    user = request.user.userprofile
-    friend = get_object_or_404(UserProfile, pk=pk)
-    current_user_profile = request.user.userprofile
-    profile = UserProfile.objects.get(id = friend.id)
-    received_chats = Chat.objects.filter(sender=profile, receiver=current_user_profile)
-    sended_chats = Chat.objects.filter(sender=current_user_profile, receiver=profile)
-    msgs = []
-    for chat in received_chats:
-        res = {'sender': chat.sender.name,
-            'sender_id': chat.sender.id,
-            'receiver': chat.receiver.name,
-            'reveiver_id': chat.receiver.id,
-            'message': chat.body,
-            'msg_id': chat.id,
-        }
-        msgs.append(res)
-
-    chats = Chat.objects.filter(sender=current_user_profile, receiver=profile)
-    for chat in sended_chats:
-        res = {'sender': chat.sender.name,
-            'sender_id': chat.sender.id,
-            'receiver': chat.receiver.name,
-            'reveiver_id': chat.receiver.id,
-            'message': chat.body,
-            'msg_id': chat.id
-        }
-        msgs.append(res)
-
-    msgs = sorted(msgs, key=lambda x: (x['msg_id']))
-
-    return JsonResponse(msgs[-1], safe=False)
 
